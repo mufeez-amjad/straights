@@ -3,6 +3,7 @@
 
 #include "Player.h";
 #include "Card.h";
+#include "Command.h";
 
 struct PlayerRecord {
 	int score; // round accumulator
@@ -16,8 +17,7 @@ class Game {
 			return &_game;
 		}
 
-		void turn();
-
+		void turn(Command);
 	private:
 		Game();
 
