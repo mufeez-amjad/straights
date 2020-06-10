@@ -1,1 +1,79 @@
 Hello world!
+
+# Deliverables
+- [ ] UML Model
+  - [ ] Class for each ADT
+    - [ ] Include main() as a class
+  - [ ] Complete spec of all attributes and operations
+    - [ ] eg. name, type initial value, static (if applicable), visibilities, abstract
+  - [ ] All associations between ADTs
+    - [ ] And between main and ADTs
+  - [ ] All multiplicites that are not 1
+  - [ ] All navigabilities
+  - [ ] Compositions and aggregation diamonds where appropriate
+  - [ ] All inheritance relationships
+- [ ] Marmoset 
+  - [ ] uml.pdf
+  - [ ] straights.zip
+    - [ ] 0 level nested
+    - [ ] .h files
+    - [ ] .cpp files
+    - [ ] Makefile
+      - [ ] must create executable `straights`
+
+# TODO:
+- [ ] Accept command line argument
+  - [ ] Set seed 
+- [ ] Prompt to invite players
+  - [ ] Accept `h` or `c`
+- [ ] Shuffling deck
+  - [ ] Correct order to start
+  - [ ] Shuffle at start of every round
+  - [ ] Assign first 13 to player 1, etc.
+- [ ] Gameplay
+  - [ ] Print starting message
+  - [ ] Start with 7 of spades player
+  - [ ] For Human turn print:
+    - [ ] List of cards that have been played
+      - [ ] in ascending order
+    - [ ] List of your cards
+      - [ ] In the same order of deck
+    - [ ] List of legal plays
+      - [ ] In the same order of deck
+- [ ] Commands
+  - [ ] Play
+    - [ ] If legal:
+      - [ ] Print play
+      - [ ] Go to next player
+    - [ ] If not legal:
+      - [ ] Print not legal
+      - [ ] Do not go to next player
+  - [ ] Discard
+    - [ ] Check if player has no valid plays
+      - [ ] Output error
+    - [ ] Otherwise, print discard
+  - [ ] Deck
+    - [ ] Print deck
+    - [ ] 13 cards per line
+  - [ ] Quit
+    - [ ] Terminate immediately
+  - [ ] Rage Quit
+    - [ ] Print message
+    - [ ] Switch Human to Computer
+    - [ ] Resume game
+- [ ] Computer Player
+  - [ ] Print play or discard
+  - [ ] Make first legal play
+  - [ ] Discard first card in hand if no legal
+- [ ] Scoring
+  - [ ] Round ends when all cards played
+  - [ ] For each player print:
+    - [ ] Discards
+      - [ ] in order of when discarded
+    - [ ] Old score + score gained = new score
+- [ ] Rounds
+  - [ ] if a player's points > 80 end game
+    - [ ] player with lowest score wins
+    - [ ] Print winner message
+      - [ ] If multiple winners, print for all winners
+  - [ ] otherwise, reshuffle and begin new round
