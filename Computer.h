@@ -1,12 +1,11 @@
 #ifndef _COMP_
 #define _COMP_
 
-#include "Player.h";
+#include "Player.h"
 
-class Computer : Player {
-    public:
-        void playTurn(Command);
+class Computer : public Player {
+	public:
+		void playTurn(Command);
 };
-
 
 #endif

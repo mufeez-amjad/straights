@@ -9,22 +9,22 @@ enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 			EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
 
 class Card{
-	friend std::istream &operator>>(std::istream &, Card &);
+	friend std::istream &operator>> (std::istream& is, Card& card);
 
 public:
 	Card(Suit, Rank);
-	Suit getSuit() const;
-	Rank getRank() const;
-	
+	Suit getSuit(void) const;
+	Rank getRank(void) const;
+
 private:
 	Suit suit_;
 	Rank rank_;
 };
 
-bool operator==(const Card &, const Card &);
+bool operator==(const Card& a, const Card& b);
 
 //output/input Card in the format <rank><suit>
-std::ostream &operator<<(std::ostream &, const Card &);
-std::istream &operator>>(std::istream &, Card &);
+std::ostream &operator<<(std::ostream& out, const Card& c);
+std::istream &operator>>(std::istream& in, Card& c);
 
 #endif

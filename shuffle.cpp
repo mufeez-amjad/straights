@@ -10,7 +10,7 @@ cards_ is an array of pointers to cards
 int seed = 0;
 
 void shuffle(){
-    static mt19937 rng(seed);
+	static mt19937 rng(seed);
 
 	int n = CARD_COUNT;
 

@@ -3,11 +3,10 @@
 
 #include "Player.h";
 
-class Human : Player {
-    public:
-        void playTurn(Command);
-        void rageQuit();
+class Human : public Player {
+	public:
+		void playTurn(Command);
+		void rageQuit();
 };
-
 
 #endif
