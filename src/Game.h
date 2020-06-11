@@ -1,6 +1,8 @@
 #ifndef _GAME_
 #define _GAME_
 
+#include <iostream>
+
 #include "GamePimpl.h"
 #include "Command.h"
 
@@ -15,16 +17,14 @@ class Game {
 		// Card* _validMoves[];
 
 	public:
-		static Game* instance(){
-			return &_game;
-		}
+		static Game* instance();
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
 			//returns:
 
-		void turn(Command);
+		void play(void);
 			//requires:
 			//throws:
 			//modifies:
@@ -37,51 +37,60 @@ class Game {
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
+
+		void _turn(Command);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
 
 		bool _isValidTurn(Card*);
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
 		void _playTurn(Card*);
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
 		void _discardTurn(Card*);
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
 		void _endRound();
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
 		void _quit();
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
 		void _humanToComputer(Player&);
 			//requires:
 			//throws:
 			//modifies:
 			//ensures:
-			//returns: 
+			//returns:
 
+		// _game singleton instance
 		static Game _game;
+
 		GameData* _gameData;
 };
 

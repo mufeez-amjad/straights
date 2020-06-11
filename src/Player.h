@@ -16,13 +16,13 @@ class Player {
 		std::vector<Card*> getHand(void) const;
 		std::vector<Card*> getDiscards(void) const;
 		// Mutators
-		void removeCard(Card*);
-		void setHand(Card*);
-	protected:
-		void discardCard(Card);
 	private:
 		std::vector<Card*> hand;
 		std::vector<Card*> discards;
+	protected:
+		void discardCard(Card);
+		void removeCard(Card*);
+		void setHand(Card*); //pointer to start of the array at i*13
 };
 
 #endif
