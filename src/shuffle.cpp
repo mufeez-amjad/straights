@@ -6,15 +6,17 @@ cards_ is an array of pointers to cards
 */
 
 #include <random>
+#include "Card.h"
 
 int seed = 0;
 
-void shuffle(){
-	static mt19937 rng(seed);
+void shuffle(Card* cards_[CARD_COUNT])
+{
+	static std::mt19937 rng(seed);
 
 	int n = CARD_COUNT;
 
-	while ( n > 1 ) {
+	while (n > 1) {
 		int k = (int) (rng() % n);
 		--n;
 		Card *c = cards_[n];

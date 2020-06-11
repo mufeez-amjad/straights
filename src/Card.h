@@ -4,6 +4,8 @@
 #include <ostream>
 #include <istream>
 
+#define CARD_COUNT 52
+
 enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 			EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
@@ -23,7 +25,7 @@ private:
 
 bool operator==(const Card& a, const Card& b);
 
-//output/input Card in the format <rank><suit>
+// output/input Card in the format <rank><suit>
 std::ostream &operator<<(std::ostream& out, const Card& c);
 std::istream &operator>>(std::istream& in, Card& c);
 
