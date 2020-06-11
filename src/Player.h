@@ -12,10 +12,9 @@ class Player {
 	public:
 		std::vector<Card*> hand;
 		std::vector<Card*> discards;
-	protected:
-		virtual Command playTurn(std::vector<Card*>);
+		virtual Command playTurn(std::vector<Card*>&);
 		void removeCard(Card*);
-		void setHand(Card*);	//pointer to start of the array at i*13
+		void setHand(Card*);
 };
 
 #endif

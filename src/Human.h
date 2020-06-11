@@ -7,10 +7,9 @@
 
 class Human : public Player {
 	public:
-		Command playTurn(std::vector<Card *>);
-		void rageQuit();
+		Command playTurn(std::vector<Card *>&);
 	private:
-		bool isValidTurn(std::vector<Card*>);
+		bool isValidTurn(std::vector<Card*>&);
 };
 
 #endif
