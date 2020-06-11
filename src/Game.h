@@ -1,9 +1,9 @@
 #ifndef _GAME_
 #define _GAME_
 
-#include "Player.h";
-#include "Card.h";
-#include "Command.h";
+#include "Player.h"
+#include "Card.h"
+#include "Command.h"
 
 struct PlayerRecord {
 	int score; // round accumulator

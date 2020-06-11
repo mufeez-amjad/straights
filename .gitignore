@@ -1,0 +1,7 @@
+# Binaries
+bin/
+straights
+
+# VS Code
+.vscode
+

@@ -4,7 +4,7 @@
 #include "Card.h"
 #include <istream>
 
-enum class Type { PLAY, DISCARD, DECK, QUIT, RAGEQUIT, BAD_COMMAND };
+enum Type { PLAY, DISCARD, DECK, QUIT, RAGEQUIT, BAD_COMMAND };
 
 struct Command{
 	Type type;
