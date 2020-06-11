@@ -1,11 +1,11 @@
-#ifndef _COMP_
-#define _COMP_
+#ifndef _COMPUTER_
+#define _COMPUTER_
 
 #include "Player.h"
 
 class Computer : public Player {
 	public:
-		void playTurn(Command);
+		Command playTurn(std::vector<Card *>);
 };
 
 #endif
