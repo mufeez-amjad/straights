@@ -18,6 +18,7 @@ struct GameData {
 	int _currentPlayer;
 	std::unordered_set<Card*> _validMoves;
 	Card* _deck[CARD_COUNT];
+	Card* _table[CARD_COUNT];
 	PlayerRecord _players[PLAYER_COUNT];
 };
 

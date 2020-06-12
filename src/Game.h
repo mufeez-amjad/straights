@@ -23,30 +23,40 @@ class Game {
 
 		void play(void);
 
-		void _printDeck(void); // TODO: move to private
-
 	private:
 		Game();
 
 		~Game();
 
+		// Start and end of game methods =====================================
+		void _invitePlayers(void);
+
+		bool _gameOver(void);
+
+		// Round and helper methods ===========================================
 		void _playRound(void);
 
-		void _printHumanPrompt(std::vector<Card*>&);
+		void _shuffleDeck(void);
 
+		void _scoreRound(void);
+
+		bool _roundOver(void);
+
+		void _endRound();
+
+		// Player helper methods ==============================================
 		void _updateActivePlayer(void);
 
 		PlayerRecord& _getCurrentPlayer(void);
 
-		std::unordered_set<Card*> _calculatePlayerLegalPlays(std::vector<Card*>&);
+		PlayerRecord& _getPlayer(int);
 
-		bool _gameOver(void);
-
-		void _shuffleDeck(void);
-
-		void _invitePlayers(void);
-
+		// Turn and helper methods ============================================
 		void _playTurn(void);
+
+		void _printHumanPrompt(std::vector<Card*>&);
+
+		std::unordered_set<Card*> _calculatePlayerLegalPlays(std::vector<Card*>&);
 
 		void _playCard(Card*);
 
@@ -54,14 +64,11 @@ class Game {
 
 		void _humanToComputer(Player*);
 
-		bool _roundOver(void);
-
-		void _endRound();
+		void _printDeck(void);
 
 		void _quit();
 
-
-		// _game singleton instance
+		// Singleton instance
 		static Game _game;
 
 		GameData* _gameData;

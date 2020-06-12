@@ -4,6 +4,7 @@
 #include "Computer.h"
 
 #include <unordered_set>
+#include <cassert>
 
 // Create singleton instance
 Game Game::_game;
@@ -104,6 +105,24 @@ void Game::_playRound(void)
 		if (this->_roundOver())
 			this->_gameData->_activeRound = false;
 	}
+	this->_scoreRound();
+}
+
+void Game::_scoreRound(void)
+{
+	for (int i = 0; i < PLAYER_COUNT; i++) {
+		int score = this->_getPlayer(i).score;
+		int points = this->_getPlayer(i).points;
+
+		std::cout << "Player " << i+1 << "'s discards: " << "\n";
+
+		std::cout << "Player " << i+1 << "'s score: "
+		          << score << " + " << points
+		          << " = " << score + points << "\n";
+
+		this->_getPlayer(i).score = score + points;
+		this->_getPlayer(i).points = 0;
+	}
 }
 
 void Game::_shuffleDeck(void)
@@ -114,8 +133,10 @@ void Game::_shuffleDeck(void)
 bool Game::_gameOver(void)
 {
 	for (int i = 0; i < PLAYER_COUNT; i++) {
-		if (this->_gameData->_players[i].score >= TARGET_SCORE)
+		if (this->_gameData->_players[i].score >= TARGET_SCORE) {
+			std::cout << "Player " << i+1 << " wins!\n";
 			return true;
+		}
 	}
 	return true; // return false;
 }
@@ -135,6 +156,12 @@ void Game::_updateActivePlayer(void)
 PlayerRecord& Game::_getCurrentPlayer(void)
 {
 	return this->_gameData->_players[this->_gameData->_currentPlayer];
+}
+
+PlayerRecord& Game::_getPlayer(int playerNumber)
+{
+	assert(playerNumber < PLAYER_COUNT);
+	return this->_gameData->_players[playerNumber];
 }
 
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
@@ -203,6 +230,9 @@ void Game::_playTurn(void)
 void Game::_playCard(Card* card)
 {
 	std::cerr << "playing card " << *card << "...\n";
+	// add card to table
+	// add new cards to valid moves
+	// remove the card that was just played from valid moves
 }
 
 void Game::_discardCard(Card* card)
