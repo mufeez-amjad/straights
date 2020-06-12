@@ -7,6 +7,8 @@
 #include "Card.h"
 #include "Command.h"
 
+#define PLAYER_COUNT 4
+
 enum class PlayerNumber { ONE, TWO, THREE, FOUR };
 
 class Player {

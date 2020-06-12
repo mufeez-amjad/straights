@@ -17,7 +17,7 @@ struct GameData {
 	PlayerNumber _currentTurn;
 	std::vector<Card*> _validMoves;
 	Card* _deck[CARD_COUNT];
-	PlayerRecord _players[];
+	PlayerRecord _players[PLAYER_COUNT];
 };
 
 #endif

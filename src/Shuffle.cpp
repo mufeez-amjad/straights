@@ -4,13 +4,10 @@ the given program, use this shuffling algorithm.
 CARD_COUNT is the constant 52
 cards_ is an array of pointers to cards
 */
-
+#include "Shuffle.h"
 #include <random>
-#include "Card.h"
 
-int seed = 0;
-
-void shuffle(Card* cards_[CARD_COUNT])
+void shuffle(Card* cards_[CARD_COUNT], int seed)
 {
 	static std::mt19937 rng(seed);
 

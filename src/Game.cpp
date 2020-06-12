@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Shuffle.h"
 
 // Create singleton instance
 Game Game::_game;

@@ -2,9 +2,8 @@
 
 #include "Game.h"
 
-int main(void)
+int main(int argc, char* argv[])
 {
-	std::cerr << "straights!\n";
 	Game* game = Game::instance();
 	game->play();
 	return 0;
