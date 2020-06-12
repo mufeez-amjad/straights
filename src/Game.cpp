@@ -9,8 +9,6 @@ Game Game::_game;
 Game::Game()
 {
 	this->_gameData = new GameData();
-	this->_gameData->_playing = true;
-	this->_gameData->_activeRound = true;
 
 	for (int suit = CLUB; suit != SUIT_COUNT; suit++) {
 		for (int rank = ACE; rank != RANK_COUNT; rank++) {
@@ -18,62 +16,7 @@ Game::Game()
 		}
 	}
 
-	this->_gameData->_validMoves.push_back(this->_gameData->_deck[RANK_COUNT*SPADE + SEVEN]);
-
-	this->_shuffleDeck();
-
-	int i = 0;
-	while(this->_gameData->_deck[i] != this->_gameData->_validMoves[0]) ++i;
-
-	this->_gameData->_currentPlayer = i/RANK_COUNT;
-}
-
-Game::~Game()
-{
-	if (this->_gameData != nullptr) {
-		for (int i = 0; i < CARD_COUNT; ++i) {
-			delete this->_gameData->_deck[i];
-		}
-	}
-}
-
-Game* Game::instance(void)
-{
-	return &Game::_game;
-}
-
-void Game::play(void)
-{
 	this->_invitePlayers();
-
-	while(this->_gameData->_playing) {
-		std::cerr << "game loop.\n";
-
-		this->_gameData->_activeRound = true;
-		this->_playRound();
-
-		if (this->_gameOver())
-			this->_gameData->_playing = false;
-	}
-
-	// declare winner
-}
-
-void Game::_playRound(void)
-{
-	this->_shuffleDeck();
-	this->_printDeck();
-
-	while(this->_gameData->_activeRound) {
-		std::cerr << "round loop.\n";
-
-		this->_playTurn(); // TODO: implement
-
-		this->_updateActivePlayer();
-
-		if (this->_roundOver())
-			this->_gameData->_activeRound = false;
-	}
 }
 
 void Game::_invitePlayers(void)
@@ -93,6 +36,75 @@ void Game::_invitePlayers(void)
 		this->_gameData->_players[i].score = 0;
 	}
 }
+
+Game::~Game()
+{
+	if (this->_gameData != nullptr) {
+		for (int i = 0; i < CARD_COUNT; ++i) {
+			delete this->_gameData->_deck[i];
+		}
+		for (int i = 0; i < PLAYER_COUNT; ++i) {
+			delete this->_gameData->_players[i].player;
+		}
+	}
+}
+
+Game* Game::instance(void)
+{
+	return &Game::_game;
+}
+
+void Game::play(void)
+{
+
+	this->_gameData->_playing = true;
+
+	while(this->_gameData->_playing) {
+		std::cerr << "game loop.\n";
+
+		this->_gameData->_activeRound = true;
+		this->_playRound();
+
+		if (this->_gameOver())
+			this->_gameData->_playing = false;
+	}
+
+	// declare winner
+}
+
+void Game::_playRound(void)
+{
+	std::cerr << "Unshuffled Deck \n"; 
+	this->_printDeck();
+	this->_shuffleDeck();
+	std::cerr << "Shuffled Deck \n";
+	this->_printDeck();
+
+	// for (int i = 0; i < PLAYER_COUNT; ++i) {
+	// 	this->_gameData->_players[i].player->setHand(
+	// 		this->_gameData->_deck[RANK_COUNT*i]
+	// 	);
+	// }
+
+	int i = 0;
+	while(this->_gameData->_deck[i]->getRank() != SEVEN ||
+			this->_gameData->_deck[i]->getSuit() != SPADE) ++i;
+	this->_gameData->_currentPlayer = i/RANK_COUNT;
+
+	std::cout << "A new round begins. It's player " << this->_gameData->_currentPlayer+1 << "'s turn to play.\n";
+
+	while(this->_gameData->_activeRound) {
+		std::cerr << "round loop.\n";
+
+		this->_playTurn(); // TODO: implement
+
+		this->_updateActivePlayer();
+
+		if (this->_roundOver())
+			this->_gameData->_activeRound = false;
+	}
+}
+
 
 void Game::_shuffleDeck(void)
 {

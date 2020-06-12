@@ -12,6 +12,8 @@
 #define PLAYER_COUNT 4
 
 class Player {
+	friend class Game;
+
 	public:
 		virtual Command playTurn(std::unordered_set<int>&) = 0;
 		// Accessors
