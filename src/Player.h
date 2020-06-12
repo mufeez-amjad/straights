@@ -22,11 +22,11 @@ class Player {
 		std::vector<Card*> hand;
 		std::vector<Card*> discards;
 
-		virtual char getType();
+		virtual char getType() = 0;
 	protected:
 		void discardCard(Card);
 		void removeCard(Card*);
-		void setHand(Card*); //pointer to start of the array at i*13
+		void setHand(Card*); // pointer to start of the array at i*13
 };
 
 #endif

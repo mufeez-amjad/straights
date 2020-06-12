@@ -12,8 +12,8 @@ Game::Game()
 	this->_gameData->_playing = true;
 	this->_gameData->_activeRound = true;
 
-	for (int suit = CLUB; suit < SUIT_COUNT; ++suit) {
-		for(int rank = ACE; suit < RANK_COUNT; ++ rank) {
+	for (int suit = CLUB; suit != SUIT_COUNT; suit++) {
+		for (int rank = ACE; rank != RANK_COUNT; rank++) {
 			this->_gameData->_deck[(RANK_COUNT*suit) + rank] = new Card((Suit)suit, (Rank)rank);
 		}
 	}
