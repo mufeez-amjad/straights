@@ -47,6 +47,25 @@ class Game {
 			//returns:
 
 		void _playRound(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
+		void _updateActivePlayer(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
+		bool _gameOver(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
 
 		void _shuffleDeck(void);
 			//requires:
@@ -62,7 +81,14 @@ class Game {
 			//ensures:
 			//returns:
 
-		void _turn(Command);
+		void _playTurn(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
+		bool _roundOver(void);
 			//requires:
 			//throws:
 			//modifies:

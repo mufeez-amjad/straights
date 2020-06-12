@@ -11,8 +11,6 @@
 
 #define PLAYER_COUNT 4
 
-enum class PlayerNumber { ONE, TWO, THREE, FOUR };
-
 class Player {
 	public:
 		virtual Command playTurn(std::unordered_set<int>&) = 0;
