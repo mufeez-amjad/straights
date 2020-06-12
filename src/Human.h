@@ -16,7 +16,6 @@ class Human : public Player {
 		};
 	private:
 		bool isValidTurn(Card, std::vector<Card*>&);
-		void printTurn(std::unordered_set<Card*>&);
 };
 
 #endif
