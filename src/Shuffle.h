@@ -5,6 +5,6 @@
 
 extern int seed;
 
-void shuffle(Card* cards_[CARD_COUNT], int seed=0);
+void shuffle(Card* cards_[CARD_COUNT]);
 
 #endif

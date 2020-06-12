@@ -31,6 +31,13 @@ class Game {
 			//ensures:
 			//returns:
 
+		void _printDeck(void); // TODO: move to private
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
 	private:
 		Game();
 			//requires:
@@ -39,7 +46,21 @@ class Game {
 			//ensures:
 			//returns:
 
+		void _playRound(void);
+
+		void _shuffleDeck(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
 		void _invitePlayers(void);
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
 
 		void _turn(Command);
 			//requires:

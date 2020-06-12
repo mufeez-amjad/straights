@@ -14,6 +14,7 @@ struct PlayerRecord {
 
 struct GameData {
 	bool _playing;
+	bool _activeRound;
 	PlayerNumber _currentTurn;
 	std::vector<Card*> _validMoves;
 	Card* _deck[CARD_COUNT];
