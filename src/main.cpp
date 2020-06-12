@@ -5,8 +5,6 @@
 
 int main(int argc, char* argv[])
 {
-	std::cerr << "yeet\n";
-
 	if (argc > 1)
 		seed = std::stoi(std::string(argv[1]));
 

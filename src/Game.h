@@ -32,7 +32,13 @@ class Game {
 
 		void _playRound(void);
 
+		void _printHumanPrompt(std::vector<Card*>&);
+
 		void _updateActivePlayer(void);
+
+		PlayerRecord& _getCurrentPlayer(void);
+
+		std::unordered_set<Card*> _calculatePlayerLegalPlays(std::vector<Card*>&);
 
 		bool _gameOver(void);
 
@@ -42,19 +48,18 @@ class Game {
 
 		void _playTurn(void);
 
+		void _playCard(Card*);
+
+		void _discardCard(Card*);
+
+		void _humanToComputer(Player*);
+
 		bool _roundOver(void);
-
-		bool _isValidTurn(Card*);
-
-		void _playTurn(Card*);
-
-		void _discardTurn(Card*);
 
 		void _endRound();
 
 		void _quit();
 
-		void _humanToComputer(Player&);
 
 		// _game singleton instance
 		static Game _game;

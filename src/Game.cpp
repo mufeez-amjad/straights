@@ -3,6 +3,8 @@
 #include "Human.h"
 #include "Computer.h"
 
+#include <unordered_set>
+
 // Create singleton instance
 Game Game::_game;
 
@@ -40,12 +42,11 @@ void Game::_invitePlayers(void)
 Game::~Game()
 {
 	if (this->_gameData != nullptr) {
-		for (int i = 0; i < CARD_COUNT; ++i) {
+		for (int i = 0; i < CARD_COUNT; ++i)
 			delete this->_gameData->_deck[i];
-		}
-		for (int i = 0; i < PLAYER_COUNT; ++i) {
+
+		for (int i = 0; i < PLAYER_COUNT; ++i)
 			delete this->_gameData->_players[i].player;
-		}
 	}
 }
 
@@ -74,7 +75,7 @@ void Game::play(void)
 
 void Game::_playRound(void)
 {
-	std::cerr << "Unshuffled Deck \n"; 
+	std::cerr << "Unshuffled Deck \n";
 	this->_printDeck();
 	this->_shuffleDeck();
 	std::cerr << "Shuffled Deck \n";
@@ -87,8 +88,8 @@ void Game::_playRound(void)
 	// }
 
 	int i = 0;
-	while(this->_gameData->_deck[i]->getRank() != SEVEN ||
-			this->_gameData->_deck[i]->getSuit() != SPADE) ++i;
+	while(this->_gameData->_deck[i]->getRank() != SEVEN || this->_gameData->_deck[i]->getSuit() != SPADE) { ++i; }
+
 	this->_gameData->_currentPlayer = i/RANK_COUNT;
 
 	std::cout << "A new round begins. It's player " << this->_gameData->_currentPlayer+1 << "'s turn to play.\n";
@@ -105,23 +106,9 @@ void Game::_playRound(void)
 	}
 }
 
-
 void Game::_shuffleDeck(void)
 {
 	shuffle(this->_gameData->_deck);
-}
-
-void Game::_printDeck(void)
-{
-	for (int i = 0; i < SUIT_COUNT; i++) {
-		for (int j = 0; j < RANK_COUNT; j++) {
-			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
-			if (j != 12)
-				std::cout << " ";
-			else
-				std::cout << "\n";
-		}
-	}
 }
 
 bool Game::_gameOver(void)
@@ -136,7 +123,7 @@ bool Game::_gameOver(void)
 bool Game::_roundOver(void)
 {
 	std::cerr << "ERROR: _roundOver unimplemented.\n";
-	return true; // TODO: implement
+	return false; // TODO: implement
 }
 
 void Game::_updateActivePlayer(void)
@@ -145,7 +132,98 @@ void Game::_updateActivePlayer(void)
 	this->_gameData->_currentPlayer %= PLAYER_COUNT;
 }
 
+PlayerRecord& Game::_getCurrentPlayer(void)
+{
+	return this->_gameData->_players[this->_gameData->_currentPlayer];
+}
+
+void Game::_printHumanPrompt(std::vector<Card*>& hand)
+{
+	std::cout << "Cards on the table:\n";
+	std::cout << "Clubs:" << "\n";
+	std::cout << "Diamonds:" << "\n";
+	std::cout << "Hearts:" << "\n";
+	std::cout << "Spades:" << "\n";
+	std::cout << "Your hand:" << "\n";
+	// iterate through hand and compare agains _gameData_validMoves, this is redundant
+	// since we also calculate playerLegalPlays, but need to print legal plays in deck-order
+	//  - pass in reference to empty playerLegalPlays and populate it here while printing legal
+	//    plays in a loop
+	//  - complicates logic since computers will not print this, so will still need a
+	//    separate _calculatePlayerLegalPlays method (or maybe a faster calculate first legal move?)
+	std::cout << "Legal plays:" << "\n";
+}
+
+std::unordered_set<Card*> Game::_calculatePlayerLegalPlays(std::vector<Card*>& hand)
+{
+	std::unordered_set<Card*> playerLegalPlays;
+	for (auto& card: hand) {
+		if (this->_gameData->_validMoves.find(card) != this->_gameData->_validMoves.end())
+			playerLegalPlays.emplace(card);
+	}
+	return playerLegalPlays;
+}
+
 void Game::_playTurn(void)
 {
-	std::cerr << "ERROR: _playTurn unimplemented.\n";
+	PlayerRecord& current = this->_getCurrentPlayer();
+	if (current.player->getType() == 'h')
+		this->_printHumanPrompt(current.player->hand);
+
+	std::unordered_set<Card*> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->hand);
+
+	Command c = current.player->playTurn(playerLegalPlays);
+	switch (c.type) {
+		case PLAY:
+			this->_playCard(&c.card); // will play card & also needs to update valid moves
+			break;
+		case DISCARD:
+			// update score, player has updated their own hand
+			// need to track how many cards are discarded since #discarded + #on table == 52 --> round end
+			this->_discardCard(&c.card);
+			break;
+		case DECK:
+			this->_printDeck();
+			break;
+		case QUIT:
+			this->~Game(); // TODO: check if we destruct or nuke program here
+			break;
+		case RAGEQUIT:
+			this->_humanToComputer(current.player); // need to swap out human with computer copy
+			break;
+		case BAD_COMMAND: // TODO: figure out what to do here, player should not allow itself to send BAD_COMMAND or undefined enum
+		default:
+			std::cerr << "ERROR: BAD_COMMAND recieved.\n";
+			break;
+	}
+
+}
+
+// Gameplay command implementations
+void Game::_playCard(Card* card)
+{
+	std::cerr << "playing card " << *card << "...\n";
+}
+
+void Game::_discardCard(Card* card)
+{
+	std::cerr << "discarding card " << *card << "...\n";
+}
+
+void Game::_humanToComputer(Player* player)
+{
+	std::cerr << "converting player " << this->_gameData->_currentPlayer+1 << " to computer...\n";
+}
+
+void Game::_printDeck(void)
+{
+	for (int i = 0; i < SUIT_COUNT; i++) {
+		for (int j = 0; j < RANK_COUNT; j++) {
+			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
+			if (j != 12)
+				std::cout << " ";
+			else
+				std::cout << "\n";
+		}
+	}
 }

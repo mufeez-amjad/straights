@@ -4,7 +4,7 @@
 #include "Player.h"
 #include "Card.h"
 
-#include <vector>
+#include <unordered_set>
 
 struct PlayerRecord {
 	int score; // round accumulator
@@ -16,7 +16,7 @@ struct GameData {
 	bool _playing;
 	bool _activeRound;
 	int _currentPlayer;
-	std::vector<Card*> _validMoves;
+	std::unordered_set<Card*> _validMoves;
 	Card* _deck[CARD_COUNT];
 	PlayerRecord _players[PLAYER_COUNT];
 };
