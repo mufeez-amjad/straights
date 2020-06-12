@@ -39,6 +39,8 @@ class Game {
 			//ensures:
 			//returns:
 
+		void _invitePlayers(void);
+
 		void _turn(Command);
 			//requires:
 			//throws:

@@ -4,6 +4,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include <iostream> // TODO: remove
+
 #include "Card.h"
 #include "Command.h"
 

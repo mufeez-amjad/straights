@@ -7,7 +7,9 @@ cards_ is an array of pointers to cards
 #include "Shuffle.h"
 #include <random>
 
-void shuffle(Card* cards_[CARD_COUNT], int seed)
+int seed = 0;
+
+void shuffle(Card* cards_[CARD_COUNT])
 {
 	static std::mt19937 rng(seed);
 
