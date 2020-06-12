@@ -3,6 +3,7 @@
 
 #include <ostream>
 #include <istream>
+#include <vector>
 
 #define CARD_COUNT 52
 
@@ -10,7 +11,7 @@ enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
 			EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
 
-class Card{
+class Card {
 	friend std::istream &operator>> (std::istream& is, Card& card);
 
 public:
@@ -28,5 +29,7 @@ bool operator==(const Card& a, const Card& b);
 // output/input Card in the format <rank><suit>
 std::ostream &operator<<(std::ostream& out, const Card& c);
 std::istream &operator>>(std::istream& in, Card& c);
+
+std::ostream &operator<<(std::ostream& out, const std::vector<Card*>& cards);
 
 #endif
