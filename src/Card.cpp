@@ -1,6 +1,9 @@
 #include "Card.h"
+
 #include <string>
 #include <cassert>
+#include <vector>
+
 using namespace std;
 
 Card::Card(Suit s, Rank r){
@@ -55,4 +58,12 @@ istream &operator>>(istream& in, Card& c){
 	assert (c.suit_ != string::npos);
 
 	return in;
+}
+
+ostream &operator<<(ostream& out, const vector<Card*>& cards) {
+	for (auto c: cards) {
+		out << *c << " "; //TODO: don't print trailing
+	}
+
+	return out;
 }

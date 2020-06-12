@@ -5,7 +5,7 @@
 
 class Computer : public Player {
 	public:
-		Command playTurn(std::vector<Card *>);
+		Command playTurn(std::unordered_set<Card*>&);
 };
 
 #endif
