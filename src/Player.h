@@ -21,6 +21,8 @@ class Player {
 	private:
 		std::vector<Card*> hand;
 		std::vector<Card*> discards;
+
+		virtual char getType();
 	protected:
 		void discardCard(Card);
 		void removeCard(Card*);

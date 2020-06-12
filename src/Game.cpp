@@ -10,11 +10,83 @@ Game::Game()
 {
 	this->_gameData = new GameData();
 	this->_gameData->_playing = true;
-	this->_gameData->_currentPlayer = 0;
-	for (int s = CLUB; s != SUIT_COUNT; s++) {
-		for (int r = ACE; r != RANK_COUNT; r++)
-			this->_gameData->_deck[(13 * s) + r] = new Card((Suit)s, (Rank)r);
+	this->_gameData->_activeRound = true;
+
+	for (int suit = CLUB; suit < SUIT_COUNT; ++suit) {
+		for(int rank = ACE; suit < RANK_COUNT; ++ rank) {
+			this->_gameData->_deck[(13*suit) + rank] = new Card((Suit)suit, (Rank)rank);
+		}
 	}
+
+	this->_gameData->_validMoves.push_back(this->_gameData->_deck[13*3 + 6]);
+
+	shuffle(this->_gameData->_deck);
+
+	int i = 0;
+	while(this->_gameData->_deck[i] != this->_gameData->_validMoves[0]) ++i;
+
+	this->_gameData->_currentPlayer = i/13;
+}
+
+Game::~Game()
+{
+	if (this->_gameData != NULL) {
+		for (int i=0; i < CARD_COUNT; ++i) {
+			delete this->_gameData->_deck[i];
+		}
+	}
+}
+
+Game::Game(const Game& g)
+{
+	this->_gameData = new GameData();
+	this->_gameData->_playing = g._gameData->_playing;
+	this->_gameData->_activeRound = g._gameData->_activeRound;
+	this->_gameData->_currentPlayer = g._gameData->_currentPlayer;
+	this->_gameData->_validMoves = g._gameData->_validMoves;
+
+	for (int i = 0; i < CARD_COUNT; ++i) {
+		this->_gameData->_deck[i] = new Card(*g._gameData->_deck[i]);
+	}
+
+	for (int i = 0; i < PLAYER_COUNT; ++i) {
+		this->_gameData->_players[i].score = g._gameData->_players[i].score;
+		this->_gameData->_players[i].points = g._gameData->_players[i].points;
+		if (g._gameData->_players[i].player->getType() == 'h'){
+			this->_gameData->_players[i].player = new Human(*g._gameData->_players[i].player);
+		} else {
+			this->_gameData->_players[i].player = new Computer(*g._gameData->_players[i].player);
+		}
+	}
+}
+
+Game& Game::operator=(const Game& g)
+{
+	Game g_copy = Game(g);
+
+	GameData* temp_gameData = this->_gameData;
+	this->_gameData = g_copy._gameData;
+	g_copy._gameData = temp_gameData;
+
+	return *this;
+}
+
+Game::Game(Game && g)
+{
+	this->_gameData = NULL;
+
+	GameData* temp_gameData = this->_gameData;
+	this->_gameData = g._gameData;
+	g._gameData = temp_gameData;
+}
+
+Game& Game::operator=(Game && g)
+{
+	GameData* temp_gameData = this->_gameData;
+	this->_gameData = g._gameData;
+	g._gameData = temp_gameData;
+
+	return *this;
 }
 
 Game* Game::instance(void)
