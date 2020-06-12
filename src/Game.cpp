@@ -14,80 +14,27 @@ Game::Game()
 
 	for (int suit = CLUB; suit < SUIT_COUNT; ++suit) {
 		for(int rank = ACE; suit < RANK_COUNT; ++ rank) {
-			this->_gameData->_deck[(13*suit) + rank] = new Card((Suit)suit, (Rank)rank);
+			this->_gameData->_deck[(RANK_COUNT*suit) + rank] = new Card((Suit)suit, (Rank)rank);
 		}
 	}
 
 	this->_gameData->_validMoves.push_back(this->_gameData->_deck[RANK_COUNT*SPADE + SEVEN]);
-```
 
-	shuffle(this->_gameData->_deck);
+	this->_shuffleDeck();
 
 	int i = 0;
 	while(this->_gameData->_deck[i] != this->_gameData->_validMoves[0]) ++i;
 
-	this->_gameData->_currentPlayer = i/13;
+	this->_gameData->_currentPlayer = i/RANK_COUNT;
 }
 
 Game::~Game()
 {
-	if (this->_gameData != NULL) {
-		for (int i=0; i < CARD_COUNT; ++i) {
+	if (this->_gameData != nullptr) {
+		for (int i = 0; i < CARD_COUNT; ++i) {
 			delete this->_gameData->_deck[i];
 		}
 	}
-}
-
-Game::Game(const Game& g)
-{
-	this->_gameData = new GameData();
-	this->_gameData->_playing = g._gameData->_playing;
-	this->_gameData->_activeRound = g._gameData->_activeRound;
-	this->_gameData->_currentPlayer = g._gameData->_currentPlayer;
-	this->_gameData->_validMoves = g._gameData->_validMoves;
-
-	for (int i = 0; i < CARD_COUNT; ++i) {
-		this->_gameData->_deck[i] = new Card(*g._gameData->_deck[i]);
-	}
-
-	for (int i = 0; i < PLAYER_COUNT; ++i) {
-		this->_gameData->_players[i].score = g._gameData->_players[i].score;
-		this->_gameData->_players[i].points = g._gameData->_players[i].points;
-		if (g._gameData->_players[i].player->getType() == 'h'){
-			this->_gameData->_players[i].player = new Human(*g._gameData->_players[i].player);
-		} else {
-			this->_gameData->_players[i].player = new Computer(*g._gameData->_players[i].player);
-		}
-	}
-}
-
-Game& Game::operator=(const Game& g)
-{
-	Game g_copy = Game(g);
-
-	GameData* temp_gameData = this->_gameData;
-	this->_gameData = g_copy._gameData;
-	g_copy._gameData = temp_gameData;
-
-	return *this;
-}
-
-Game::Game(Game && g)
-{
-	this->_gameData = NULL;
-
-	GameData* temp_gameData = this->_gameData;
-	this->_gameData = g._gameData;
-	g._gameData = temp_gameData;
-}
-
-Game& Game::operator=(Game && g)
-{
-	GameData* temp_gameData = this->_gameData;
-	this->_gameData = g._gameData;
-	g._gameData = temp_gameData;
-
-	return *this;
 }
 
 Game* Game::instance(void)
@@ -154,9 +101,9 @@ void Game::_shuffleDeck(void)
 
 void Game::_printDeck(void)
 {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 13; j++) {
-			std::cout << *(this->_gameData->_deck[(13 * i) + j]);
+	for (int i = 0; i < SUIT_COUNT; i++) {
+		for (int j = 0; j < RANK_COUNT; j++) {
+			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
 			if (j != 12)
 				std::cout << " ";
 			else
@@ -168,7 +115,7 @@ void Game::_printDeck(void)
 bool Game::_gameOver(void)
 {
 	for (int i = 0; i < PLAYER_COUNT; i++) {
-		if (this->_gameData->_players[i].score >= 80)
+		if (this->_gameData->_players[i].score >= TARGET_SCORE)
 			return true;
 	}
 	return true; // return false;
@@ -183,7 +130,7 @@ bool Game::_roundOver(void)
 void Game::_updateActivePlayer(void)
 {
 	this->_gameData->_currentPlayer++;
-	this->_gameData->_currentPlayer %= 4;
+	this->_gameData->_currentPlayer %= PLAYER_COUNT;
 }
 
 void Game::_playTurn(void)

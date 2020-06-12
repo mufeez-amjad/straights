@@ -6,6 +6,8 @@
 #include "GamePimpl.h"
 #include "Command.h"
 
+#define TARGET_SCORE 80
+
 class Game {
 	// Private Implementation for data members GameData
 		// PlayerRecord _players[]
@@ -40,6 +42,13 @@ class Game {
 
 	private:
 		Game();
+			//requires:
+			//throws:
+			//modifies:
+			//ensures:
+			//returns:
+
+		~Game();
 			//requires:
 			//throws:
 			//modifies:
