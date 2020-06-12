@@ -18,7 +18,8 @@ Game::Game()
 		}
 	}
 
-	this->_gameData->_validMoves.push_back(this->_gameData->_deck[13*3 + 6]);
+	this->_gameData->_validMoves.push_back(this->_gameData->_deck[RANK_COUNT*SPADE + SEVEN]);
+```
 
 	shuffle(this->_gameData->_deck);
 
