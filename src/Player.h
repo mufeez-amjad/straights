@@ -17,7 +17,7 @@ class Player {
 		void removeCard(Card*);
 		void setHand(Card*);
 	protected:
-		void discardCard(Card*);
+		void discardCard(Card);
 		std::vector<Card*> getValidTurns(std::unordered_set<Card*>&);
 };
 

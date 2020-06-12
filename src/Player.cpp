@@ -14,9 +14,18 @@ void Player::setHand(Card* c) {
     }
 }
 
-void Player::discardCard(Card* c) {
-    removeCard(c);
-    discards.push_back(c);
+void Player::discardCard(Card c) {
+    Card* discardedCard;
+
+    for (auto card: hand) {
+        if (*card == c) {
+            discardedCard = card;
+            break;
+        }
+    }
+
+    removeCard(discardedCard);
+    discards.push_back(discardedCard);
 }
 
 std::vector<Card*> Player::getValidTurns(std::unordered_set<Card*>& validTurns) {
