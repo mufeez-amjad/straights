@@ -17,6 +17,8 @@ class Card {
 public:
 	Card(Suit, Rank);
 	Card(int);
+
+	Card(const Card&);
 	Suit getSuit(void) const;
 	Rank getRank(void) const;
 	int getHash(void) const;

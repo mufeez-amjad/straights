@@ -6,9 +6,7 @@
 Command Human::playTurn(std::unordered_set<int> &validTurns)
 {
 	Command co;
-
 	std::cin >> co;
-
 
 	switch (co.type) {
 		case PLAY:

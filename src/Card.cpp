@@ -8,6 +8,11 @@ using namespace std;
 
 std::string suitNames[4] = { "Clubs", "Diamonds", "Hearts", "Spades" };
 
+Card::Card(const Card &c) {
+	suit_ = c.suit_;
+	rank_ = c.rank_;
+}
+
 std::string& Card::getName(Suit suit)
 {
 	assert((int)suit < SUIT_COUNT);

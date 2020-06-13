@@ -5,6 +5,7 @@
 #include "Card.h"
 
 #include <unordered_set>
+#include <unordered_map>
 
 struct PlayerRecord {
 	int score; // round accumulator
@@ -19,6 +20,7 @@ struct GameData {
 	int _cardsInHand;
 	std::unordered_set<int> _validMoves;
 	Card* _deck[CARD_COUNT];
+	Card* _orderedDeck[CARD_COUNT];
 	Card* _table[CARD_COUNT];
 	PlayerRecord _players[PLAYER_COUNT];
 };
