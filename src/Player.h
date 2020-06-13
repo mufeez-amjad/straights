@@ -25,7 +25,7 @@ class Player {
 
 		// Mutators
 		void removeCard(Card*);
-		void setHand(Card*); // pointer to start of the array at i*13
+		void setHand(Card**); // pointer to start of the array at i*13
 	private:
 		std::vector<Card*> hand;
 		std::vector<Card*> discards;

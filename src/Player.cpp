@@ -13,9 +13,9 @@ void Player::removeCard(Card* c) {
 	}
 }
 
-void Player::setHand(Card* c) {
-	for (Card* i = c; i < c + 13; i++) {
-		hand.push_back(i);
+void Player::setHand(Card** c) {
+	for (Card** i = c; i < c + RANK_COUNT; i++) {
+		hand.push_back(*i);
 	}
 }
 

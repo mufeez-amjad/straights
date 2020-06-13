@@ -39,6 +39,7 @@ void Game::_invitePlayers(void)
 		this->_gameData->_players[i].points = 0;
 		this->_gameData->_players[i].score = 0;
 	}
+	std::cin.clear();
 }
 
 Game::~Game()
@@ -83,14 +84,16 @@ void Game::_playRound(void)
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) {
 		this->_gameData->_players[i].player->setHand(
-			this->_gameData->_deck[RANK_COUNT*i]
+			&this->_gameData->_deck[RANK_COUNT*i]
 		);
 	}
 
-	this->_addValidMove(&Card(CLUB, SEVEN));
-	this->_addValidMove(&Card(DIAMOND, SEVEN));
-	this->_addValidMove(&Card(HEART, SEVEN));
-	this->_addValidMove(&Card(SPADE, SEVEN));
+	this->_gameData->_cardsInHand = CARD_COUNT;
+
+	this->_addValidMove(Card(CLUB, SEVEN).getHash());
+	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
+	this->_addValidMove(Card(HEART, SEVEN).getHash());
+	this->_addValidMove(Card(SPADE, SEVEN).getHash());
 
 	int i = 0;
 	while(this->_gameData->_deck[i]->getRank() != SEVEN || this->_gameData->_deck[i]->getSuit() != SPADE) { ++i; }
@@ -147,7 +150,6 @@ bool Game::_gameOver(void)
 
 bool Game::_roundOver(void)
 {
-	std::cerr << "ERROR: _roundOver unimplemented.\n";
 	return false; // TODO: implement
 }
 
@@ -171,22 +173,31 @@ PlayerRecord& Game::_getPlayer(int playerNumber)
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
 {
 	std::cout << "Cards on the table:\n";
-	std::cout << "Clubs:" << "\n";
-	std::cout << "Diamonds:" << "\n";
-	std::cout << "Hearts:" << "\n";
-	std::cout << "Spades:" << "\n";
-	std::cout << "Your hand:" << "\n";
+	std::cout << "Clubs: " << "\n";
+	std::cout << "Diamonds: " << "\n";
+	std::cout << "Hearts: " << "\n";
+	std::cout << "Spades: " << "\n";
+	std::cout << "Your hand: " << "\n";
 	// iterate through hand and compare agains _gameData_validMoves, this is redundant
 	// since we also calculate playerLegalPlays, but need to print legal plays in deck-order
 	//  - pass in reference to empty playerLegalPlays and populate it here while printing legal
 	//    plays in a loop
 	//  - complicates logic since computers will not print this, so will still need a
 	//    separate _calculatePlayerLegalPlays method (or maybe a faster calculate first legal move?)
-	std::cout << "Legal plays:" << "\n";
+	std::cout << "Legal plays:";
+	for (auto& c: hand) {
+		if (this->_isValidMove(c))
+			std::cout << " " << *c;
+	}
+	std::cout << "\n";
 }
 
 std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& hand)
 {
+	std::cerr << "player's hand:\n";
+	for (auto& c: hand)
+		std::cerr << *c << " ";
+
 	std::unordered_set<int> playerLegalPlays;
 	for (auto& card: hand) {
 		if (this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end()) {
@@ -206,10 +217,15 @@ void Game::_playTurn(void)
 
 	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->hand);
 
+	std::cerr << "legal plays for player:\n";
+	for (auto& p: playerLegalPlays)
+		std::cerr << p << " ";
+
 	Command c = current.player->playTurn(playerLegalPlays);
 	switch (c.type) {
 		case PLAY:
-			this->_playCard(&c.card); // will play card & also needs to update valid moves
+			this->_playCard(&c.card);
+			current.player->removeCard(&c.card);
 			break;
 		case DISCARD:
 			// update score, player has updated their own hand
@@ -236,8 +252,6 @@ void Game::_playTurn(void)
 // Gameplay command implementations
 void Game::_playCard(Card* card)
 {
-	std::cerr << "playing card " << *card << "...\n";
-
 	this->_addToTable(card);
 
 	this->_removeValidMove(card);
@@ -261,7 +275,8 @@ void Game::_playCard(Card* card)
 
 void Game::_discardCard(Card* card)
 {
-	std::cerr << "discarding card " << *card << "...\n";
+	this->_getCurrentPlayer().points += card->getRank() + 1;
+	this->_gameData->_cardsInHand--;
 }
 
 void Game::_humanToComputer(Player* player)
@@ -291,11 +306,22 @@ void Game::_removeValidMove(int hash)
 	this->_gameData->_validMoves.erase(hash);
 }
 
+bool Game::_isValidMove(Card* card)
+{
+	return this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end();
+}
+
+bool Game::_isValidMove(int hash)
+{
+	return this->_gameData->_validMoves.find(hash) != this->_gameData->_validMoves.end();
+}
+
 // Table Methods
 
 void Game::_addToTable(Card* card)
 {
 	this->_gameData->_table[card->getHash()] = card;
+	this->_gameData->_cardsInHand--;
 }
 
 void Game::_printDeck(void)

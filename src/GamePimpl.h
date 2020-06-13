@@ -16,6 +16,7 @@ struct GameData {
 	bool _playing;
 	bool _activeRound;
 	int _currentPlayer;
+	int _cardsInHand;
 	std::unordered_set<int> _validMoves;
 	Card* _deck[CARD_COUNT];
 	Card* _table[CARD_COUNT];
