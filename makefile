@@ -1,6 +1,6 @@
 # Commands
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -std=c++17 -Wall -g
 RM = rm -f
 MKDIR = mkdir -p
 

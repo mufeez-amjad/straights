@@ -4,9 +4,8 @@ the given program, use this shuffling algorithm.
 CARD_COUNT is the constant 52
 cards_ is an array of pointers to cards
 */
-
+#include "Shuffle.h"
 #include <random>
-#include "Card.h"
 
 int seed = 0;
 

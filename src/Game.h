@@ -1,39 +1,87 @@
 #ifndef _GAME_
 #define _GAME_
 
-#include "Player.h"
-#include "Card.h"
+#include <iostream>
+
+#include "GamePimpl.h"
 #include "Command.h"
 
-struct PlayerRecord {
-	int score; // round accumulator
-	int points;
-	Player* player;
-};
+#define TARGET_SCORE 80
 
 class Game {
-	public:
-		static Game* instance(){
-			return &_game;
-		}
+	// Private Implementation for data members GameData
+		// PlayerRecord _players[]
+			// int score
+			// int points
+			// Player* player
+		// PlayerNumber _currentTurn {ONE, TWO, THREE, FOUR}
+		// Card* _deck[]
+		// Card* _validMoves[];
 
-		void turn(Command);
+	public:
+		static Game* instance();
+
+		void play(void);
+
 	private:
 		Game();
 
-		bool _isValidTurn(Card*);
-		void _playTurn(Card*);
-		void _discardTurn(Card*);
-		void _endRound();
-		void _quit();
-		void _humanToComputer(Player&);
+		~Game();
 
+		// Start and end of game methods =====================================
+		void _invitePlayers(void);
+
+		bool _gameOver(void);
+
+		// Round and helper methods ===========================================
+		void _playRound(void);
+
+		void _shuffleDeck(void);
+
+		void _scoreRound(void);
+
+		bool _roundOver(void);
+
+		void _endRound();
+
+		// Player helper methods ==============================================
+		void _updateActivePlayer(void);
+
+		PlayerRecord& _getCurrentPlayer(void);
+
+		PlayerRecord& _getPlayer(int);
+
+		// Turn and helper methods ============================================
+		void _playTurn(void);
+
+		void _printHumanPrompt(std::vector<Card*>&);
+
+		std::unordered_set<int> _calculatePlayerLegalPlays(std::vector<Card*>&);
+
+		void _playCard(Card*);
+
+		void _discardCard(Card*);
+
+		void _humanToComputer(Player*);
+
+		void _printDeck(void);
+
+		void _quit();
+
+		// Legal play methods =================================================
+		void _addValidMove(Card*);
+		void _addValidMove(int);
+
+		void _removeValidMove(Card*);
+		void _removeValidMove(int);
+
+		// Table methods ======================================================
+		void _addToTable(Card*);
+
+		// Singleton instance
 		static Game _game;
 
-		PlayerRecord _players[];
-		PlayerNumber _currentTurn;
-		Card* _deck[];
-		Card* _validMoves[];
+		GameData* _gameData;
 };
 
 #endif

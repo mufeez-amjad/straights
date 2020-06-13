@@ -14,6 +14,7 @@ class Human : public Player {
 			private:		
 				std::string _message;
 		};
+		char getType() override {return 'h';};
 	private:
 		bool isValidTurn(Card, std::unordered_set<int>&);
 };

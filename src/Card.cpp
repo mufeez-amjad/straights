@@ -33,7 +33,11 @@ bool operator== (const Card& a, const Card& b) {
 }
 
 ostream &operator<< (ostream& out, const Card& c) {
-	string suits[SUIT_COUNT] = {"C", "D", "H", "S"};
+
+	string suits[SUIT_COUNT] = {
+			"C", "D", "H", "S"
+		};
+
 	string ranks[RANK_COUNT] =
 		{
 			"A", "2", "3", "4", "5", "6",
