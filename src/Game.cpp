@@ -145,7 +145,7 @@ bool Game::_gameOver(void)
 			return true;
 		}
 	}
-	return true; // return false;
+	return false;
 }
 
 bool Game::_roundOver(void)
