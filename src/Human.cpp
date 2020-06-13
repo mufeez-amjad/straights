@@ -3,21 +3,19 @@
 #include "Human.h"
 #include "Card.h"
 
-Command Human::playTurn(std::unordered_set<Card*> &validTurns) {
-    std::vector<Card*> myValidTurns = getValidTurns(validTurns);
-
+Command Human::playTurn(std::unordered_set<int> &validTurns) {
     Command co;
 
     std::cin >> co;
 
     switch (co.type) {
         case PLAY:
-            if (!isValidTurn(co.card, myValidTurns)) {
+            if (!isValidTurn(co.card, validTurns)) {
                 throw InvalidMoveException("This is not a legal play.");
             }
             break;
         case DISCARD:
-            if (myValidTurns.size()) {
+            if (validTurns.size()) {
                 throw InvalidMoveException("You have a legal play. You may not discard.");
             }
             discardCard(co.card);
@@ -29,12 +27,7 @@ Command Human::playTurn(std::unordered_set<Card*> &validTurns) {
     return co;
 }
 
-bool Human::isValidTurn(Card c, std::vector<Card*> &validTurns) {
-    for (auto v: validTurns) {
-        if (*v == c) {
-            return true;
-        }
-    }
-
-    return false;
+bool Human::isValidTurn(Card c, std::unordered_set<int> &validTurns) {
+    int hash = c.getHash();
+    return validTurns.find(hash) != validTurns.end();
 }

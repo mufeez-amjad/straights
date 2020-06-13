@@ -11,12 +11,21 @@ Card::Card(Suit s, Rank r){
 	rank_ = r;
 }
 
+Card::Card(int hash) {
+	suit_ = (Suit) (hash / RANK_COUNT);
+	rank_ = (Rank) (hash % RANK_COUNT);
+}
+
 Suit Card::getSuit(void) const {
 	return suit_;
 }
 
 Rank Card::getRank(void) const {
 	return rank_;
+}
+
+int Card::getHash(void) const {
+	return suit_ * 13 + rank_;
 }
 
 bool operator== (const Card& a, const Card& b) {

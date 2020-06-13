@@ -5,7 +5,7 @@
 
 class Human : public Player {
 	public:
-		Command playTurn(std::unordered_set<Card *>&);
+		Command playTurn(std::unordered_set<int>&) override;
 
 		class InvalidMoveException {
 			public:
@@ -15,7 +15,7 @@ class Human : public Player {
 				std::string _message;
 		};
 	private:
-		bool isValidTurn(Card, std::vector<Card*>&);
+		bool isValidTurn(Card, std::unordered_set<int>&);
 };
 
 #endif

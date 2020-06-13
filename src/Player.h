@@ -11,14 +11,18 @@ enum class PlayerNumber { ONE, TWO, THREE, FOUR };
 
 class Player {
 	public:
-		std::vector<Card*> hand;
-		std::vector<Card*> discards;
-		virtual Command playTurn(std::unordered_set<Card*>&) = 0;
+		virtual Command playTurn(std::unordered_set<int>&) = 0;
+		// Accessors
+		std::vector<Card*> getHand(void) const;
+		std::vector<Card*> getDiscards(void) const;
+		// Mutators
 		void removeCard(Card*);
 		void setHand(Card*);
 	protected:
 		void discardCard(Card);
-		std::vector<Card*> getValidTurns(std::unordered_set<Card*>&);
+	private:
+		std::vector<Card*> hand;
+		std::vector<Card*> discards;
 };
 
 #endif

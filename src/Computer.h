@@ -5,7 +5,7 @@
 
 class Computer : public Player {
 	public:
-		Command playTurn(std::unordered_set<Card*>&);
+		Command playTurn(std::unordered_set<int>&) override;
 };
 
 #endif

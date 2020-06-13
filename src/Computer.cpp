@@ -1,16 +1,16 @@
 #include "Computer.h"
 
-Command Computer::playTurn(std::unordered_set<Card*> &validTurns) {
-    std::vector<Card*> myValidTurns = getValidTurns(validTurns);
-
+Command Computer::playTurn(std::unordered_set<int> &validTurns) {
     Command co;
 
-    if (myValidTurns.size()) {
-        Card c = *myValidTurns[0];
+    if (validTurns.size()) {
+        int hash = *validTurns.begin();
+        Card c = Card(hash);
 
         co.card = c;
         co.type = PLAY;
     } else {
+        std::vector<Card*> hand = getHand();
         Card c = *hand[0];
 
         co.card = c;

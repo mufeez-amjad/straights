@@ -28,14 +28,10 @@ void Player::discardCard(Card c) {
     discards.push_back(discardedCard);
 }
 
-std::vector<Card*> Player::getValidTurns(std::unordered_set<Card*>& validTurns) {
-    std::vector<Card*> myValidTurns;
+std::vector<Card*> Player::getHand(void) const {
+    return hand;
+}
 
-    for (auto c: hand) {
-        if (validTurns.find(c) != validTurns.end()) {
-            myValidTurns.push_back(c);
-        }
-    }
-
-    return myValidTurns;
+std::vector<Card*> Player::getDiscards(void) const {
+    return discards;
 }

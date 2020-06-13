@@ -16,9 +16,10 @@ class Card {
 
 public:
 	Card(Suit, Rank);
+	Card(int);
 	Suit getSuit(void) const;
 	Rank getRank(void) const;
-
+	int getHash(void) const;
 private:
 	Suit suit_;
 	Rank rank_;
