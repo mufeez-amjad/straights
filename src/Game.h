@@ -33,6 +33,8 @@ class Game {
 
 		bool _gameOver(void);
 
+		void _declareWinner(void);
+
 		// Round and helper methods ===========================================
 		void _playRound(void);
 
@@ -80,6 +82,8 @@ class Game {
 
 		// Table methods ======================================================
 		void _addToTable(Card*);
+
+		void _clearTable(void);
 
 		void _printTable(void);
 

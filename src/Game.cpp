@@ -72,12 +72,27 @@ void Game::play(void)
 		if (this->_gameOver())
 			this->_gameData->_playing = false;
 	}
+	this->_declareWinner();
+}
+
+void Game::_declareWinner(void)
+{
+	int minScore = this->_gameData->_players[0].score;
+	for (int i = 1; i < PLAYER_COUNT; i++) {
+		if (this->_gameData->_players[i].score < minScore)
+			minScore = this->_gameData->_players[i].score;
+	}
+	for (int i = 0; i < PLAYER_COUNT; i++) {
+		if (this->_gameData->_players[i].score == minScore)
+			std::cout << "Player " << i + 1 << " wins!\n";
+	}
 }
 
 void Game::_playRound(void)
 {
 	std::cerr << "Unshuffled Deck \n";
 	this->_printDeck();
+	this->_clearTable();
 	this->_shuffleDeck();
 
 	std::cerr << "Shuffled Deck \n";
@@ -150,7 +165,6 @@ bool Game::_gameOver(void)
 {
 	for (int i = 0; i < PLAYER_COUNT; i++) {
 		if (this->_gameData->_players[i].score >= TARGET_SCORE) {
-			std::cout << "Player " << i+1 << " wins!\n";
 			return true;
 		}
 	}
@@ -223,7 +237,7 @@ requery:
 		case PLAY:
 			std::cout << "Player " << this->_gameData->_currentPlayer << " plays " << c.card << '\n';
 			this->_playCard(this->_gameData->_orderedDeck[c.card.getHash()]);
-			current.player->removeCard(&c.card);
+			current.player->removeCard(this->_gameData->_orderedDeck[c.card.getHash()]);
 			break;
 		case DISCARD:
 			std::cout << "Player " << this->_gameData->_currentPlayer << " discards " << c.card << '\n';
@@ -326,6 +340,12 @@ void Game::_addToTable(Card* card)
 {
 	this->_gameData->_table[card->getHash()] = card;
 	this->_gameData->_cardsInHand--;
+}
+
+void Game::_clearTable(void)
+{
+	for (int i = 0; i < CARD_COUNT; i++)
+		this->_gameData->_table[i] = nullptr;
 }
 
 void Game::_printTable(void)
