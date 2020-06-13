@@ -52,7 +52,14 @@ Game::~Game()
 
 		for (int i = 0; i < PLAYER_COUNT; ++i)
 			delete this->_getPlayer(i).player;
+
+		delete this->_gameData;
 	}
+}
+
+void Game::_quitGame(void)
+{
+	this->_gameData->_playing = false;
 }
 
 Game* Game::instance(void)
@@ -72,6 +79,12 @@ void Game::play(void)
 		if (this->_gameOver())
 			this->_gameData->_playing = false;
 	}
+
+	// If the game is over but a round is still active,
+	// quit silently
+	if (this->_gameData->_activeRound)
+		return;
+
 	this->_declareWinner();
 }
 
@@ -90,13 +103,14 @@ void Game::_declareWinner(void)
 
 void Game::_playRound(void)
 {
-	std::cerr << "Unshuffled Deck \n";
-	this->_printDeck();
+	// std::cerr << "Unshuffled Deck:\n";
+	// this->_printDeck();
+
 	this->_clearTable();
 	this->_shuffleDeck();
 
-	std::cerr << "Shuffled Deck \n";
-	this->_printDeck();
+	// std::cerr << "Shuffled Deck \n";
+	// this->_printDeck();
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) {
 		this->_gameData->_players[i].player->setHand(
@@ -118,15 +132,15 @@ void Game::_playRound(void)
 
 	std::cout << "A new round begins. It's player " << this->_gameData->_currentPlayer+1 << "'s turn to play.\n";
 
-	while(this->_gameData->_activeRound) {
+	while(this->_gameData->_activeRound && this->_gameData->_playing) {
 		this->_playTurn();
 		this->_updateActivePlayer();
 
 		if (this->_roundOver())
 			this->_gameData->_activeRound = false;
 	}
-	std::cerr << "round over\n";
-	this->_scoreRound();
+	if (this->_gameData->_playing)
+		this->_scoreRound();
 }
 
 void Game::_scoreRound(void)
@@ -154,10 +168,10 @@ void Game::_shuffleDeck(void)
 		this->_gameData->_orderedDeck[card->getHash()] = card;
 	}
 
-	std::cerr << "unshuffled deck:\n";
-	for (int i = 0; i < CARD_COUNT; i++)
-		std::cerr << *this->_gameData->_orderedDeck[i] << " ";
-	std::cerr << "\n";
+	// std::cerr << "unshuffled deck:\n";
+	// for (int i = 0; i < CARD_COUNT; i++)
+	// 	std::cerr << *this->_gameData->_orderedDeck[i] << " ";
+	// std::cerr << "\n";
 
 }
 
@@ -210,7 +224,7 @@ std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& han
 	std::unordered_set<int> playerLegalPlays;
 	for (auto& card: hand) {
 		if (this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end()) {
-			playerLegalPlays.emplace(card->getHash());
+			playerLegalPlays.insert(card->getHash());
 			if (this->_getCurrentPlayer().player->getType() == 'c')
 				break;
 		}
@@ -221,18 +235,13 @@ std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& han
 void Game::_playTurn(void)
 {
 	PlayerRecord& current = this->_getCurrentPlayer();
-	if (true) //current.player->getType() == 'h')
+	if (current.player->getType() == 'h')
 		this->_printHumanPrompt(current.player->_hand);
 
 	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
-
-	std::cerr << "getting command\n";
-
-requery:
 	Command c = current.player->playTurn(playerLegalPlays);
 
-	std::cerr << "got command\n";
-
+requery:
 	switch (c.type) {
 		case PLAY:
 			std::cout << "Player " << this->_gameData->_currentPlayer << " plays " << c.card << '\n';
@@ -248,10 +257,11 @@ requery:
 			goto requery;
 			break;
 		case QUIT:
-			this->~Game(); // TODO: check if we destruct or nuke program here
+			return this->_quitGame();
 			break;
 		case RAGEQUIT:
 			this->_humanToComputer(current.player);
+			goto requery;
 			break;
 		case BAD_COMMAND:
 		default:
@@ -264,11 +274,8 @@ requery:
 // Gameplay command implementations
 void Game::_playCard(Card* card)
 {
-	std::cerr << "card "<< *card << "\n";
 	this->_addToTable(card);
-	std::cerr << "added to table" << "\n";
 	this->_removeValidMove(card);
-	std::cerr << "removed from valid moves" << "\n";
 
 	int hash = card->getHash();
 	Rank rank = card->getRank();
@@ -284,8 +291,6 @@ void Game::_playCard(Card* card)
 			this->_addValidMove(hash - 1);
 			break;
 	}
-
-	std::cerr << "done updating valid moves" << "\n";
 }
 
 void Game::_discardCard(Card* card)

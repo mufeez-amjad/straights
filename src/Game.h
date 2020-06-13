@@ -35,6 +35,8 @@ class Game {
 
 		void _declareWinner(void);
 
+		void _quitGame(void);
+
 		// Round and helper methods ===========================================
 		void _playRound(void);
 
