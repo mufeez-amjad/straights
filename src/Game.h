@@ -56,7 +56,7 @@ class Game {
 
 		void _printHumanPrompt(std::vector<Card*>&);
 
-		std::unordered_set<Card*> _calculatePlayerLegalPlays(std::vector<Card*>&);
+		std::unordered_set<int> _calculatePlayerLegalPlays(std::vector<Card*>&);
 
 		void _playCard(Card*);
 
@@ -67,6 +67,16 @@ class Game {
 		void _printDeck(void);
 
 		void _quit();
+
+		// Legal play methods =================================================
+		void _addValidMove(Card*);
+		void _addValidMove(int);
+
+		void _removeValidMove(Card*);
+		void _removeValidMove(int);
+
+		// Table methods ======================================================
+		void _addToTable(Card*);
 
 		// Singleton instance
 		static Game _game;
