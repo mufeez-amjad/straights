@@ -3,7 +3,8 @@
 #include "Human.h"
 #include "Card.h"
 
-Command Human::playTurn(std::unordered_set<int> &validTurns) {
+Command Human::playTurn(std::unordered_set<int> &validTurns)
+{
 	Command co;
 
 	std::cin >> co;
@@ -28,11 +29,13 @@ Command Human::playTurn(std::unordered_set<int> &validTurns) {
 	return co;
 }
 
-bool Human::isValidTurn(Card c, std::unordered_set<int> &validTurns) {
+bool Human::isValidTurn(Card c, std::unordered_set<int> &validTurns)
+{
 	int hash = c.getHash();
-	std::cerr << "looking for hash " << hash << " in:\n";
-	for (auto&i : validTurns)
-		std::cerr << i << " ";
-
 	return validTurns.find(hash) != validTurns.end();
+}
+
+char Human::getType()
+{
+	return 'h';
 }

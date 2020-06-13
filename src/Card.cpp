@@ -6,6 +6,19 @@
 
 using namespace std;
 
+std::string suitNames[4] = { "Clubs", "Diamonds", "Hearts", "Spades" };
+
+std::string& Card::getName(Suit suit)
+{
+	assert((int)suit < SUIT_COUNT);
+	return suitNames[(int)suit];
+}
+
+int Card::hash(Suit suit, Rank rank)
+{
+	return suit * 13 + rank;
+}
+
 Card::Card(Suit s, Rank r){
 	suit_ = s;
 	rank_ = r;
@@ -25,7 +38,7 @@ Rank Card::getRank(void) const {
 }
 
 int Card::getHash(void) const {
-	return suit_ * 13 + rank_;
+	return Card::hash(this->suit_, this->rank_);
 }
 
 bool operator== (const Card& a, const Card& b) {

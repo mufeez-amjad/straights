@@ -25,10 +25,13 @@ class Player {
 
 		// Mutators
 		void removeCard(Card*);
-		void setHand(Card**); // pointer to start of the array at i*13
+		void setHand(Card**);
+		void setHand(std::vector<Card*>);
+		void setDiscards(std::vector<Card*>);
+
 	private:
-		std::vector<Card*> hand;
-		std::vector<Card*> discards;
+		std::vector<Card*> _hand;
+		std::vector<Card*> _discards;
 
 		virtual char getType() = 0;
 

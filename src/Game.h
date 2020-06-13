@@ -81,6 +81,8 @@ class Game {
 		// Table methods ======================================================
 		void _addToTable(Card*);
 
+		void _printTable(void);
+
 		// Singleton instance
 		static Game _game;
 

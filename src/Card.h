@@ -20,6 +20,10 @@ public:
 	Suit getSuit(void) const;
 	Rank getRank(void) const;
 	int getHash(void) const;
+
+	static int hash(Suit, Rank);
+	static std::string& getName(Suit);
+
 private:
 	Suit suit_;
 	Rank rank_;

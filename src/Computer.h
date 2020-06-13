@@ -1,12 +1,14 @@
 #ifndef _COMPUTER_
 #define _COMPUTER_
 
-#include "Player.h"
+#include "Human.h"
 
 class Computer : public Player {
 	public:
+		Computer();
+		Computer(Player*);
 		Command playTurn(std::unordered_set<int>&) override;
-		char getType() override {return 'c';};
+		char getType() override;
 };
 
 #endif

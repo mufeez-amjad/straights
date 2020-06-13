@@ -49,7 +49,7 @@ Game::~Game()
 			delete this->_gameData->_deck[i];
 
 		for (int i = 0; i < PLAYER_COUNT; ++i)
-			delete this->_gameData->_players[i].player;
+			delete this->_getPlayer(i).player;
 	}
 }
 
@@ -121,7 +121,7 @@ void Game::_scoreRound(void)
 		int score = this->_getPlayer(i).score;
 		int points = this->_getPlayer(i).points;
 
-		std::cout << "Player " << i+1 << "'s discards: " << "\n";
+		std::cout << "Player " << i+1 << "'s discards: " << this->_getPlayer(i).player->getDiscards() << '\n';
 
 		std::cout << "Player " << i+1 << "'s score: "
 		          << score << " + " << points
@@ -150,7 +150,7 @@ bool Game::_gameOver(void)
 
 bool Game::_roundOver(void)
 {
-	return false; // TODO: implement
+	return this->_gameData->_cardsInHand == 0;
 }
 
 void Game::_updateActivePlayer(void)
@@ -172,18 +172,8 @@ PlayerRecord& Game::_getPlayer(int playerNumber)
 
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
 {
-	std::cout << "Cards on the table:\n";
-	std::cout << "Clubs: " << "\n";
-	std::cout << "Diamonds: " << "\n";
-	std::cout << "Hearts: " << "\n";
-	std::cout << "Spades: " << "\n";
-	std::cout << "Your hand: " << "\n";
-	// iterate through hand and compare agains _gameData_validMoves, this is redundant
-	// since we also calculate playerLegalPlays, but need to print legal plays in deck-order
-	//  - pass in reference to empty playerLegalPlays and populate it here while printing legal
-	//    plays in a loop
-	//  - complicates logic since computers will not print this, so will still need a
-	//    separate _calculatePlayerLegalPlays method (or maybe a faster calculate first legal move?)
+	this->_printTable();
+	std::cout << "Your hand: " << hand << "\n";
 	std::cout << "Legal plays:";
 	for (auto& c: hand) {
 		if (this->_isValidMove(c))
@@ -194,10 +184,6 @@ void Game::_printHumanPrompt(std::vector<Card*>& hand)
 
 std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& hand)
 {
-	std::cerr << "player's hand:\n";
-	for (auto& c: hand)
-		std::cerr << *c << " ";
-
 	std::unordered_set<int> playerLegalPlays;
 	for (auto& card: hand) {
 		if (this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end()) {
@@ -213,14 +199,11 @@ void Game::_playTurn(void)
 {
 	PlayerRecord& current = this->_getCurrentPlayer();
 	if (current.player->getType() == 'h')
-		this->_printHumanPrompt(current.player->hand);
+		this->_printHumanPrompt(current.player->_hand);
 
-	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->hand);
+	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
 
-	std::cerr << "legal plays for player:\n";
-	for (auto& p: playerLegalPlays)
-		std::cerr << p << " ";
-
+requery:
 	Command c = current.player->playTurn(playerLegalPlays);
 	switch (c.type) {
 		case PLAY:
@@ -228,22 +211,21 @@ void Game::_playTurn(void)
 			current.player->removeCard(&c.card);
 			break;
 		case DISCARD:
-			// update score, player has updated their own hand
-			// need to track how many cards are discarded since #discarded + #on table == 52 --> round end
 			this->_discardCard(&c.card);
 			break;
 		case DECK:
 			this->_printDeck();
+			goto requery;
 			break;
 		case QUIT:
 			this->~Game(); // TODO: check if we destruct or nuke program here
 			break;
 		case RAGEQUIT:
-			this->_humanToComputer(current.player); // need to swap out human with computer copy
+			this->_humanToComputer(current.player);
 			break;
-		case BAD_COMMAND: // TODO: figure out what to do here, player should not allow itself to send BAD_COMMAND or undefined enum
+		case BAD_COMMAND:
 		default:
-			std::cerr << "ERROR: BAD_COMMAND recieved.\n";
+			// undefined behaviour
 			break;
 	}
 
@@ -281,7 +263,10 @@ void Game::_discardCard(Card* card)
 
 void Game::_humanToComputer(Player* player)
 {
-	std::cerr << "converting player " << this->_gameData->_currentPlayer+1 << " to computer...\n";
+	Player* currentPlayer = this->_getCurrentPlayer().player;
+	Computer* computer = new Computer(currentPlayer);
+	delete currentPlayer;
+	this->_gameData->_players[this->_gameData->_currentPlayer].player = computer;
 }
 
 // Valid Move Methods
@@ -322,6 +307,19 @@ void Game::_addToTable(Card* card)
 {
 	this->_gameData->_table[card->getHash()] = card;
 	this->_gameData->_cardsInHand--;
+}
+
+void Game::_printTable(void)
+{
+	std::cout << "Cards on the table:\n";
+	for (int i = 0; i < SUIT_COUNT; i++) {
+		std::cout << Card::getName((Suit)i) << ":";
+		for (int j = 0; j < RANK_COUNT; j++) {
+			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr)
+				std::cout << " " << *this->_gameData->_table[Card::hash((Suit)i, (Rank)j)];
+		}
+		std::cout << "\n";
+	}
 }
 
 void Game::_printDeck(void)
