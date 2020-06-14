@@ -239,9 +239,17 @@ void Game::_playTurn(void)
 		this->_printHumanPrompt(current.player->_hand);
 
 	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
-	Command c = current.player->playTurn(playerLegalPlays);
+
+	Command c;
 
 requery:
+	try {
+		c = current.player->playTurn(playerLegalPlays);
+	} catch (Human::InvalidMoveException e) {
+		std::cout << e.getMessage() << std::endl;
+		goto requery;
+	}
+
 	switch (c.type) {
 		case PLAY:
 			std::cout << "Player " << this->_gameData->_currentPlayer << " plays " << c.card << '\n';
