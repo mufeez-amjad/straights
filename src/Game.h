@@ -23,6 +23,10 @@ class Game {
 
 		void play(void);
 
+		// Prevent copies of singleton
+		Game(Game const&) = delete;
+		void operator=(Game const&) = delete;
+
 	private:
 		Game();
 
@@ -57,6 +61,8 @@ class Game {
 
 		// Turn and helper methods ============================================
 		void _playTurn(void);
+
+		void _queryTurn(PlayerRecord&, std::unordered_set<int>&);
 
 		void _printHumanPrompt(std::vector<Card*>&);
 

@@ -232,22 +232,17 @@ std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& han
 	return playerLegalPlays;
 }
 
-void Game::_playTurn(void)
+void Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays)
 {
-	PlayerRecord& current = this->_getCurrentPlayer();
-	if (current.player->getType() == 'h')
-		this->_printHumanPrompt(current.player->_hand);
-
-	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
-
 	Command c;
 
-requery:
 	try {
-		c = current.player->playTurn(playerLegalPlays);
+		c = current.player->playTurn(legalPlays);
 	} catch (Human::InvalidMoveException e) {
 		std::cout << e.getMessage() << std::endl;
-		goto requery;
+		_queryTurn(current, legalPlays);
+		// after requery return since this Command is invalid
+		return;
 	}
 
 	switch (c.type) {
@@ -262,21 +257,31 @@ requery:
 			break;
 		case DECK:
 			this->_printDeck();
-			goto requery;
+			_queryTurn(current, legalPlays);
 			break;
 		case QUIT:
 			return this->_quitGame();
 			break;
 		case RAGEQUIT:
 			this->_humanToComputer(current.player);
-			goto requery;
+			_queryTurn(current, legalPlays);
 			break;
 		case BAD_COMMAND:
 		default:
-			// undefined behaviour
 			break;
 	}
+	// always done after breaking from switch
+	return;
+}
 
+void Game::_playTurn(void)
+{
+	PlayerRecord& current = this->_getCurrentPlayer();
+	if (current.player->getType() == 'h')
+		this->_printHumanPrompt(current.player->_hand);
+
+	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
+	this->_queryTurn(current, playerLegalPlays);
 }
 
 // Gameplay command implementations
@@ -289,9 +294,11 @@ void Game::_playCard(Card* card)
 	Rank rank = card->getRank();
 	switch (rank) {
 		case KING:
+			// no rank is higher than King
 			this->_addValidMove(hash - 1);
 			break;
 		case ACE:
+			// no rank is lower than Ace
 			this->_addValidMove(hash + 1);
 			break;
 		default:
@@ -319,7 +326,7 @@ void Game::_humanToComputer(Player* player)
 
 void Game::_addValidMove(Card* card)
 {
-	this->_gameData->_validMoves.emplace(card->getHash());
+	this->_addValidMove(card->getHash());
 }
 
 void Game::_addValidMove(int hash)
@@ -329,7 +336,7 @@ void Game::_addValidMove(int hash)
 
 void Game::_removeValidMove(Card* card)
 {
-	this->_gameData->_validMoves.erase(card->getHash());
+	this->_removeValidMove(card->getHash());
 }
 
 void Game::_removeValidMove(int hash)
@@ -339,7 +346,7 @@ void Game::_removeValidMove(int hash)
 
 bool Game::_isValidMove(Card* card)
 {
-	return this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end();
+	return this->_isValidMove(card->getHash());
 }
 
 bool Game::_isValidMove(int hash)

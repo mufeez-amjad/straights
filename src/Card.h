@@ -24,6 +24,7 @@ public:
 	int getHash(void) const;
 
 	static int hash(Suit, Rank);
+	static int hash(int, int);
 	static std::string& getName(Suit);
 
 private:
