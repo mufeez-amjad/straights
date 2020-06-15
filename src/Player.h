@@ -27,11 +27,11 @@ class Player
 		void setHand(std::vector<Card*>);
 		void setDiscards(std::vector<Card*>);
 
+		virtual char getType() = 0;
 	private:
 		std::vector<Card*> _hand;
 		std::vector<Card*> _discards;
 
-		virtual char getType() = 0;
 
 	protected:
 		void discardCard(Card);

@@ -1,14 +1,17 @@
 #include "Computer.h"
 
+#include <iostream>
+#include <cassert>
+
 Computer::Computer()
 {
 
 }
 
-Computer::Computer(Player* p)
+Computer::Computer(Player& p)
 {
-	setHand(p->getHand());
-	setDiscards(p->getDiscards());
+	setHand(p.getHand());
+	setDiscards(p.getDiscards());
 }
 
 Command Computer::playTurn(std::unordered_set<int> &validTurns) {

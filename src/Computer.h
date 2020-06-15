@@ -7,7 +7,7 @@ class Computer : public Player
 {
 	public:
 		Computer();
-		Computer(Player*);
+		Computer(Player&);
 		Command playTurn(std::unordered_set<int>&) override;
 		char getType() override;
 };

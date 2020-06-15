@@ -317,7 +317,7 @@ void Game::_discardCard(Card* card)
 void Game::_humanToComputer(Player* player)
 {
 	Player* currentPlayer = this->_getCurrentPlayer().player;
-	Computer* computer = new Computer(currentPlayer);
+	Computer* computer = new Computer(*currentPlayer);
 	delete currentPlayer;
 	this->_gameData->_players[this->_gameData->_currentPlayer].player = computer;
 }
