@@ -63,7 +63,7 @@ class Game
 		// Turn and helper methods ============================================
 		void _playTurn(void);
 
-		void _queryTurn(PlayerRecord&, std::unordered_set<int>&);
+		bool _queryTurn(PlayerRecord&, std::unordered_set<int>&);
 
 		void _printHumanPrompt(std::vector<Card*>&);
 
