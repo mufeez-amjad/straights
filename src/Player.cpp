@@ -51,3 +51,7 @@ std::vector<Card*> Player::getHand(void) const {
 std::vector<Card*> Player::getDiscards(void) const {
 	return _discards;
 }
+
+PlayerType Player::getType(void) const {
+	return _type;
+}

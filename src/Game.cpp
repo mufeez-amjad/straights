@@ -225,7 +225,7 @@ std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& han
 	for (auto& card: hand) {
 		if (this->_gameData->_validMoves.find(card->getHash()) != this->_gameData->_validMoves.end()) {
 			playerLegalPlays.insert(card->getHash());
-			if (this->_getCurrentPlayer().player->getType() == 'c')
+			if (this->_getCurrentPlayer().player->getType() == PlayerType::COMPUTER)
 				break;
 		}
 	}
@@ -275,7 +275,7 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 void Game::_playTurn(void)
 {
 	PlayerRecord& current = this->_getCurrentPlayer();
-	if (current.player->getType() == 'h')
+	if (current.player->getType() == PlayerType::HUMAN)
 		this->_printHumanPrompt(current.player->_hand);
 
 	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);

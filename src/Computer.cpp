@@ -3,11 +3,6 @@
 #include <iostream>
 #include <cassert>
 
-Computer::Computer()
-{
-
-}
-
 Computer::Computer(Player& p)
 {
 	setHand(p.getHand());
@@ -33,9 +28,4 @@ Command Computer::playTurn(std::unordered_set<int> &validTurns) {
 	}
 
 	return co;
-}
-
-char Computer::getType(void)
-{
-	return 'c';
 }

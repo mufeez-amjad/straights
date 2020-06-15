@@ -6,6 +6,8 @@
 class Human : public Player
 {
 	public:
+		Human() : Player() { _type = PlayerType::HUMAN; };
+
 		Command playTurn(std::unordered_set<int>&) override;
 
 		class InvalidMoveException
@@ -17,10 +19,8 @@ class Human : public Player
 				std::string _message;
 		};
 
-		char getType() override;
-
 	private:
-		bool isValidTurn(Card, std::unordered_set<int>&);
+		bool _isValidTurn(Card, std::unordered_set<int>&);
 };
 
 #endif
