@@ -3,7 +3,8 @@
 
 #include "Player.h"
 
-class Human : public Player {
+class Human : public Player
+{
 	public:
 		Command playTurn(std::unordered_set<int>&) override;
 

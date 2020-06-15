@@ -8,7 +8,8 @@
 
 #define TARGET_SCORE 80
 
-class Game {
+class Game
+{
 	// Private Implementation for data members GameData
 		// PlayerRecord _players[]
 			// int score

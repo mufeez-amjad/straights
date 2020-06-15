@@ -3,7 +3,8 @@
 
 #include "Human.h"
 
-class Computer : public Player {
+class Computer : public Player
+{
 	public:
 		Computer();
 		Computer(Player*);

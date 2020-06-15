@@ -1,12 +1,12 @@
 #include "Command.h"
 #include <cassert>
 #include <sstream>
-using namespace std;
 
-istream &operator>>(istream &in, Command &c) {
+std::istream &operator>>(std::istream &in, Command &c)
+{
 	c.type = BAD_COMMAND;
 
-	string cmd;
+	std::string cmd;
 	in >> cmd;
 
 	if (cmd == "play") {

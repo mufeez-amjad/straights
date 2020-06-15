@@ -3,16 +3,14 @@
 
 #include <unordered_set>
 #include <vector>
-#include <unordered_set>
-
-#include <iostream> // TODO: remove
 
 #include "Card.h"
 #include "Command.h"
 
 #define PLAYER_COUNT 4
 
-class Player {
+class Player
+{
 	friend class Game;
 
 	public:

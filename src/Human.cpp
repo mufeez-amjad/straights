@@ -33,7 +33,7 @@ bool Human::isValidTurn(Card c, std::unordered_set<int> &validTurns)
 	return validTurns.find(hash) != validTurns.end();
 }
 
-char Human::getType()
+char Human::getType(void)
 {
 	return 'h';
 }

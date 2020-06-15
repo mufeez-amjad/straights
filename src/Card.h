@@ -9,10 +9,11 @@
 
 enum Suit { CLUB, DIAMOND, HEART, SPADE, SUIT_COUNT };
 enum Rank { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
-			EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
+		    EIGHT, NINE, TEN, JACK, QUEEN, KING, RANK_COUNT };
 
-class Card {
-	friend std::istream &operator>> (std::istream& is, Card& card);
+class Card
+{
+	friend std::istream &operator>> (std::istream&, Card&);
 
 public:
 	Card(Suit, Rank);
@@ -32,12 +33,12 @@ private:
 	Rank rank_;
 };
 
-bool operator==(const Card& a, const Card& b);
+bool operator==(const Card&, const Card&);
 
 // output/input Card in the format <rank><suit>
-std::ostream &operator<<(std::ostream& out, const Card& c);
-std::istream &operator>>(std::istream& in, Card& c);
+std::ostream &operator<<(std::ostream&, const Card&);
+std::istream &operator>>(std::istream&, Card&);
 
-std::ostream &operator<<(std::ostream& out, const std::vector<Card*>& cards);
+std::ostream &operator<<(std::ostream&, const std::vector<Card*>&);
 
 #endif

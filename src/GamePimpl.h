@@ -7,13 +7,15 @@
 #include <unordered_set>
 #include <unordered_map>
 
-struct PlayerRecord {
-	int score; // round accumulator
-	int points;
+struct PlayerRecord
+{
+	int score;  // round accumulator
+	int points; // single round score
 	Player* player;
 };
 
-struct GameData {
+struct GameData
+{
 	bool _playing;
 	bool _activeRound;
 	int _currentPlayer;
