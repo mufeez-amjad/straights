@@ -16,8 +16,6 @@ enum class PlayerType : char {
 
 class Player
 {
-	friend class Game;
-
 	public:
 		virtual ~Player();
 

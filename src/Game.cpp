@@ -240,7 +240,7 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 		c = current.player->playTurn(legalPlays);
 	} catch (Human::InvalidMoveException e) {
 		std::cout << e.getMessage() << std::endl;
-		return false;
+		return true;
 	}
 
 	switch (c.type) {
@@ -255,30 +255,32 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 			break;
 		case DECK:
 			this->_printDeck();
-			return false;
+			return true;
 			break;
 		case QUIT:
 			this->_quitGame();
 			break;
 		case RAGEQUIT:
 			this->_humanToComputer(current.player);
-			return false;
+			return true;
 			break;
-		case BAD_COMMAND:
 		default:
 			break;
 	}
 	// always done after breaking from switch
-	return true;
+	return false;
 }
 
 void Game::_playTurn(void)
 {
 	PlayerRecord& current = this->_getCurrentPlayer();
-	if (current.player->getType() == PlayerType::HUMAN)
-		this->_printHumanPrompt(current.player->_hand);
+	std::vector<Card*> hand = current.player->getHand();
 
-	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(current.player->_hand);
+	if (current.player->getType() == PlayerType::HUMAN) {
+		this->_printHumanPrompt(hand);
+	}
+
+	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(hand);
 
 	bool requery = false;
 	do {
