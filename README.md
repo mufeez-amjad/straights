@@ -18,62 +18,62 @@ Hello world!
     - [ ] 0 level nested
     - [ ] .h files
     - [ ] .cpp files
-    - [ ] Makefile
-      - [ ] must create executable `straights`
+    - [X] Makefile
+      - [X] must create executable `straights`
 
 # TODO:
-- [ ] Accept command line argument
-  - [ ] Set seed 
-- [ ] Prompt to invite players
-  - [ ] Accept `h` or `c`
-- [ ] Shuffling deck
-  - [ ] Correct order to start
-  - [ ] Shuffle at start of every round
-  - [ ] Assign first 13 to player 1, etc.
-- [ ] Gameplay
-  - [ ] Print starting message
-  - [ ] Start with 7 of spades player
-  - [ ] For Human turn print:
-    - [ ] List of cards that have been played
-      - [ ] in ascending order
-    - [ ] List of your cards
-      - [ ] In the same order of deck
-    - [ ] List of legal plays
-      - [ ] In the same order of deck
-- [ ] Commands
-  - [ ] Play
-    - [ ] If legal:
-      - [ ] Print play
-      - [ ] Go to next player
-    - [ ] If not legal:
-      - [ ] Print not legal
-      - [ ] Do not go to next player
-  - [ ] Discard
-    - [ ] Check if player has no valid plays
-      - [ ] Output error
-    - [ ] Otherwise, print discard
-  - [ ] Deck
-    - [ ] Print deck
-    - [ ] 13 cards per line
-  - [ ] Quit
-    - [ ] Terminate immediately
-  - [ ] Rage Quit
-    - [ ] Print message
-    - [ ] Switch Human to Computer
-    - [ ] Resume game
-- [ ] Computer Player
-  - [ ] Print play or discard
-  - [ ] Make first legal play
-  - [ ] Discard first card in hand if no legal
-- [ ] Scoring
-  - [ ] Round ends when all cards played
-  - [ ] For each player print:
-    - [ ] Discards
-      - [ ] in order of when discarded
-    - [ ] Old score + score gained = new score
-- [ ] Rounds
-  - [ ] if a player's points > 80 end game
-    - [ ] player with lowest score wins
-    - [ ] Print winner message
-      - [ ] If multiple winners, print for all winners
-  - [ ] otherwise, reshuffle and begin new round
+- [X] Accept command line argument
+  - [X] Set seed 
+- [X] Prompt to invite players
+  - [X] Accept `h` or `c`
+- [X] Shuffling deck
+  - [X] Correct order to start
+  - [X] Shuffle at start of every round
+  - [X] Assign first 13 to player 1, etc.
+- [X] Gameplay
+  - [X] Print starting message
+  - [X] Start with 7 of spades player
+  - [X] For Human turn print:
+    - [X] List of cards that have been played
+      - [X] in ascending order
+    - [X] List of your cards
+      - [X] In the same order of deck
+    - [X] List of legal plays
+      - [X] In the same order of deck
+- [X] Commands
+  - [X] Play
+    - [X] If legal:
+      - [X] Print play
+      - [X] Go to next player
+    - [X] If not legal:
+      - [X] Print not legal
+      - [X] Do not go to next player
+  - [X] Discard
+    - [X] Check if player has no valid plays
+      - [X] Output error
+    - [X] Otherwise, print discard
+  - [X] Deck
+    - [X] Print deck
+    - [X] 13 cards per line
+  - [X] Quit
+    - [X] Terminate immediately
+  - [X] Rage Quit
+    - [X] Print message
+    - [X] Switch Human to Computer
+    - [X] Resume game
+- [X] Computer Player
+  - [X] Print play or discard
+  - [X] Make first legal play
+  - [X] Discard first card in hand if no legal
+- [X] Scoring
+  - [X] Round ends when all cards played
+  - [X] For each player print:
+    - [X] Discards
+      - [X] in order of when discarded
+    - [X] Old score + score gained = new score
+- [X] Rounds
+  - [X] if a player's points > 80 end game
+    - [X] player with lowest score wins
+    - [X] Print winner message
+      - [X] If multiple winners, print for all winners
+  - [X] otherwise, reshuffle and begin new round
