@@ -6,18 +6,12 @@
 
 #include "Card.h"
 #include "Command.h"
-
-#define PLAYER_COUNT 4
-
-enum class PlayerType : char {
-     HUMAN = 'h',
-     COMPUTER = 'c',
-};
+#include "PlayerPimpl.h"
 
 class Player
 {
 	public:
-		Player() {};
+		Player();
 		Player(std::vector<Card*>, std::vector<Card*>);
 		virtual ~Player() noexcept;
 
@@ -34,8 +28,7 @@ class Player
 		void resetHand();
 
 	private:
-		std::vector<Card*> _hand;
-		std::vector<Card*> _discards;
+		PlayerData* _playerData;
 
 	protected:
 		PlayerType _type;
