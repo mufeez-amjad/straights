@@ -3,11 +3,9 @@
 #include <iostream>
 #include <cassert>
 
-Computer::Computer(Player& p)
+Computer::Computer(Player& p) : Player(p.getHand(), p.getDiscards())
 {
 	_type = PlayerType::COMPUTER;
-	setHand(p.getHand());
-	setDiscards(p.getDiscards());
 }
 
 Command Computer::playTurn(std::unordered_set<int> &validTurns) {

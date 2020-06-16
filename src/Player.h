@@ -17,6 +17,8 @@ enum class PlayerType : char {
 class Player
 {
 	public:
+		Player() {};
+		Player(std::vector<Card*>, std::vector<Card*>);
 		virtual ~Player();
 
 		// Accessors
@@ -29,9 +31,8 @@ class Player
 
 		void removeCard(Card*);
 		void setHand(Card**);
-		void setHand(std::vector<Card*>);
-		void setDiscards(std::vector<Card*>);
 		void resetHand();
+
 	private:
 		std::vector<Card*> _hand;
 		std::vector<Card*> _discards;

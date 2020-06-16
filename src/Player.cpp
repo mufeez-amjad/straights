@@ -7,6 +7,11 @@ Player::~Player()
 
 }
 
+Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
+	_hand = hand;
+	_discards = discards;
+}
+
 void Player::removeCard(Card* c)
 {
 
@@ -26,17 +31,8 @@ void Player::setHand(Card** c)
 		_hand.push_back(*i);
 }
 
-void Player::setHand(std::vector<Card*> hand)
+void Player::resetHand()
 {
-	_hand = hand;
-}
-
-void Player::setDiscards(std::vector<Card*> discards)
-{
-	_discards = discards;
-}
-
-void Player::resetHand() {
 	std::vector<Card*> empty;
 	_hand = empty;
 	_discards = empty;
