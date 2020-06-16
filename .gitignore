@@ -4,7 +4,6 @@ straights
 
 # Text Files
 *.txt
-*.out
 
 # VS Code
 .vscode
