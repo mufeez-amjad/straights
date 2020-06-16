@@ -19,7 +19,7 @@ public:
 	Card(Suit, Rank);
 	Card(int);
 
-	Card(const Card&);
+	Card(const Card&) noexcept;
 	Suit getSuit(void) const;
 	Rank getRank(void) const;
 	int getHash(void) const;

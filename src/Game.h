@@ -31,7 +31,7 @@ class Game
 	private:
 		Game();
 
-		~Game();
+		~Game() noexcept;
 
 		// Start and end of game methods =====================================
 		void _invitePlayers(void);

@@ -10,7 +10,7 @@ std::string suitNames[4] =
 	"Clubs", "Diamonds", "Hearts", "Spades"
 };
 
-Card::Card(const Card &c)
+Card::Card(const Card &c) noexcept
 {
 	suit_ = c.suit_;
 	rank_ = c.rank_;

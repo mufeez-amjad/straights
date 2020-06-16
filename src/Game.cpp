@@ -44,7 +44,7 @@ void Game::_invitePlayers(void)
 	std::cin.clear();
 }
 
-Game::~Game()
+Game::~Game() noexcept
 {
 	if (this->_gameData != nullptr) {
 		for (int i = 0; i < CARD_COUNT; ++i)
