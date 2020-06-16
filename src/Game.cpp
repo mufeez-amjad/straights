@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "Shuffle.h"
 #include "Human.h"
 #include "Computer.h"
 
@@ -12,13 +11,12 @@ Game Game::_game;
 Game::Game()
 {
 	this->_gameData = new GameData();
+	this->_gameData->_deck = new Deck();
 
 	for (int suit = CLUB; suit != SUIT_COUNT; suit++) {
 		for (int rank = ACE; rank != RANK_COUNT; rank++) {
 			int index = (RANK_COUNT*suit) + rank;
-			this->_gameData->_deck[index] = new Card((Suit)suit, (Rank)rank);
 			this->_gameData->_table[index] = nullptr;
-			this->_gameData->_orderedDeck[index] = nullptr;
 		}
 	}
 
@@ -47,8 +45,7 @@ void Game::_invitePlayers(void)
 Game::~Game()
 {
 	if (this->_gameData != nullptr) {
-		for (int i = 0; i < CARD_COUNT; ++i)
-			delete this->_gameData->_deck[i];
+		delete this->_gameData->_deck;
 
 		for (int i = 0; i < PLAYER_COUNT; ++i)
 			delete this->_getPlayer(i).player;
@@ -104,14 +101,14 @@ void Game::_declareWinner(void)
 void Game::_playRound(void)
 {
 	// std::cerr << "Unshuffled Deck:\n";
-	// this->_printDeck();
+	// std::cout << *this->_gameData->_deck << "\n";
 
 	this->_clearTable();
-	this->_shuffleDeck();
+	this->_gameData->_deck->shuffle();
 	this->_resetValidMoves();
 
 	// std::cerr << "Shuffled Deck \n";
-	// this->_printDeck();
+	// std::cout << *this->_gameData->_deck << "\n";
 
 	for (int i = 0; i < PLAYER_COUNT; ++i) {
 		this->_gameData->_players[i].player->setHand(
@@ -122,7 +119,7 @@ void Game::_playRound(void)
 	this->_gameData->_cardsInHand = CARD_COUNT;
 
 	int i = 0;
-	while(this->_gameData->_deck[i]->getRank() != SEVEN || this->_gameData->_deck[i]->getSuit() != SPADE) { ++i; }
+	while(this->_gameData->_deck->at(i)->getRank() != SEVEN || this->_gameData->_deck->at(i)->getSuit() != SPADE) { ++i; }
 
 	this->_gameData->_currentPlayer = i/RANK_COUNT;
 
@@ -160,21 +157,6 @@ void Game::_scoreRound(void)
 		this->_getPlayer(i).score = score + points;
 		this->_getPlayer(i).points = 0;
 	}
-}
-
-void Game::_shuffleDeck(void)
-{
-	shuffle(this->_gameData->_deck);
-	for (int i = 0; i < CARD_COUNT; i++) {
-		Card* card = this->_gameData->_deck[i];
-		this->_gameData->_orderedDeck[card->getHash()] = card;
-	}
-
-	// std::cerr << "unshuffled deck:\n";
-	// for (int i = 0; i < CARD_COUNT; i++)
-	// 	std::cerr << *this->_gameData->_orderedDeck[i] << " ";
-	// std::cerr << "\n";
-
 }
 
 bool Game::_gameOver(void)
@@ -248,15 +230,15 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 	switch (c.type) {
 		case PLAY:
 			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " plays " << c.card << ".\n";
-			this->_playCard(this->_gameData->_orderedDeck[c.card.getHash()]);
-			current.player->removeCard(this->_gameData->_orderedDeck[c.card.getHash()]);
+			this->_playCard(this->_gameData->_deck->lookup(c.card));
+			current.player->removeCard(this->_gameData->_deck->lookup(c.card));
 			break;
 		case DISCARD:
 			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " discards " << c.card << ".\n";
-			this->_discardCard(this->_gameData->_orderedDeck[c.card.getHash()]);
+			this->_discardCard(this->_gameData->_deck->lookup(c.card));
 			break;
 		case DECK:
-			this->_printDeck();
+			std::cout << *this->_gameData->_deck << "\n";
 			return true;
 			break;
 		case QUIT:
@@ -399,18 +381,5 @@ void Game::_printTable(void)
 				std::cout << " " << this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank() + 1;
 		}
 		std::cout << "\n";
-	}
-}
-
-void Game::_printDeck(void)
-{
-	for (int i = 0; i < SUIT_COUNT; i++) {
-		for (int j = 0; j < RANK_COUNT; j++) {
-			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
-			if (j != 12)
-				std::cout << " ";
-			else
-				std::cout << "\n";
-		}
 	}
 }

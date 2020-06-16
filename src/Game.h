@@ -16,7 +16,7 @@ class Game
 			// int points
 			// Player* player
 		// PlayerNumber _currentTurn {ONE, TWO, THREE, FOUR}
-		// Card* _deck[]
+		// Deck* _deck
 		// Card* _validMoves[];
 
 	public:
@@ -45,8 +45,6 @@ class Game
 		// Round and helper methods ===========================================
 		void _playRound(void);
 
-		void _shuffleDeck(void);
-
 		void _scoreRound(void);
 
 		bool _roundOver(void);
@@ -74,8 +72,6 @@ class Game
 		void _discardCard(Card*);
 
 		void _humanToComputer(Player*);
-
-		void _printDeck(void);
 
 		void _quit();
 
