@@ -17,7 +17,8 @@ class Game
 			// Player* player
 		// PlayerNumber _currentTurn {ONE, TWO, THREE, FOUR}
 		// Deck* _deck
-		// Card* _validMoves[];
+		// CardTable* _table
+		// std::unordered_set<int> _validMoves;
 
 	public:
 		static Game* instance();
@@ -86,13 +87,6 @@ class Game
 		bool _isValidMove(int);
 
 		void _resetValidMoves(void);
-
-		// Table methods ======================================================
-		void _addToTable(Card*);
-
-		void _clearTable(void);
-
-		void _printTable(void);
 
 		// Singleton instance
 		static Game _game;

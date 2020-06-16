@@ -12,13 +12,7 @@ Game::Game()
 {
 	this->_gameData = new GameData();
 	this->_gameData->_deck = new Deck();
-
-	for (int suit = CLUB; suit != SUIT_COUNT; suit++) {
-		for (int rank = ACE; rank != RANK_COUNT; rank++) {
-			int index = (RANK_COUNT*suit) + rank;
-			this->_gameData->_table[index] = nullptr;
-		}
-	}
+	this->_gameData->_table = new CardTable();
 
 	this->_invitePlayers();
 }
@@ -46,12 +40,12 @@ Game::~Game()
 {
 	if (this->_gameData != nullptr) {
 		delete this->_gameData->_deck;
+		delete this->_gameData->_table;
 
 		for (int i = 0; i < PLAYER_COUNT; ++i)
 			delete this->_getPlayer(i).player;
-
-		delete this->_gameData;
 	}
+	delete this->_gameData;
 }
 
 void Game::_quitGame(void)
@@ -100,15 +94,9 @@ void Game::_declareWinner(void)
 
 void Game::_playRound(void)
 {
-	// std::cerr << "Unshuffled Deck:\n";
-	// std::cout << *this->_gameData->_deck << "\n";
-
-	this->_clearTable();
+	this->_gameData->_table->clear();
 	this->_gameData->_deck->shuffle();
 	this->_resetValidMoves();
-
-	// std::cerr << "Shuffled Deck \n";
-	// std::cout << *this->_gameData->_deck << "\n";
 
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		this->_gameData->_players[i].player->setHand(*this->_gameData->_deck, RANK_COUNT * i);
@@ -132,9 +120,8 @@ void Game::_playRound(void)
 
 	if (this->_gameData->_playing) { // TODO: verify
 		this->_scoreRound();
-		for (int i = 0; i < PLAYER_COUNT; i++) {
+		for (int i = 0; i < PLAYER_COUNT; i++)
 			this->_getPlayer(i).player->resetHand();
-		}
 	}
 }
 
@@ -159,9 +146,8 @@ void Game::_scoreRound(void)
 bool Game::_gameOver(void)
 {
 	for (int i = 0; i < PLAYER_COUNT; i++) {
-		if (this->_gameData->_players[i].score >= TARGET_SCORE) {
+		if (this->_gameData->_players[i].score >= TARGET_SCORE)
 			return true;
-		}
 	}
 	return false;
 }
@@ -190,7 +176,7 @@ PlayerRecord& Game::_getPlayer(int playerNumber)
 
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
 {
-	this->_printTable();
+	std::cout << "Cards on the table:\n" << this->_gameData->_table << "\n";
 	std::cout << "Your hand: " << hand << "\n";
 	std::cout << "Legal plays:";
 	for (auto& c: hand) {
@@ -266,11 +252,6 @@ void Game::_playTurn(void)
 	bool requery = false;
 	do {
 		std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(hand);
-		// std::cerr << "playerLegalPlays: ";
-		// for (auto& p: playerLegalPlays) {
-		// 	std::cerr << Card(p) << " ";
-		// }
-		// std::cerr << "\n";
 		requery = this->_queryTurn(current, playerLegalPlays);
 	} while (requery);
 }
@@ -278,7 +259,9 @@ void Game::_playTurn(void)
 // Gameplay command implementations
 void Game::_playCard(Card* card)
 {
-	this->_addToTable(card);
+	this->_gameData->_table->addCard(card);
+	this->_gameData->_cardsInHand--;
+
 	this->_removeValidMove(card);
 
 	int hash = card->getHash();
@@ -289,8 +272,8 @@ void Game::_playCard(Card* card)
 			this->_addValidMove(hash - 1);
 			break;
 		case ACE:
-			// no rank is lower than Ace
 			this->_addValidMove(hash + 1);
+			// no rank is lower than Ace
 			break;
 		default:
 			this->_addValidMove(hash + 1);
@@ -301,7 +284,7 @@ void Game::_playCard(Card* card)
 
 void Game::_discardCard(Card* card)
 {
-	this->_getCurrentPlayer().points += card->getRank() + 1;
+	this->_getCurrentPlayer().points += card->getValue();
 	this->_gameData->_cardsInHand--;
 }
 
@@ -352,31 +335,4 @@ void Game::_resetValidMoves(void)
 	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
 	this->_addValidMove(Card(HEART, SEVEN).getHash());
 	this->_addValidMove(Card(SPADE, SEVEN).getHash());
-}
-
-// Table Methods
-
-void Game::_addToTable(Card* card)
-{
-	this->_gameData->_table[card->getHash()] = card;
-	this->_gameData->_cardsInHand--;
-}
-
-void Game::_clearTable(void)
-{
-	for (int i = 0; i < CARD_COUNT; i++)
-		this->_gameData->_table[i] = nullptr;
-}
-
-void Game::_printTable(void)
-{
-	std::cout << "Cards on the table:\n";
-	for (int i = 0; i < SUIT_COUNT; i++) {
-		std::cout << Card::getName((Suit)i) << ":";
-		for (int j = 0; j < RANK_COUNT; j++) {
-			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr)
-				std::cout << " " << this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank() + 1;
-		}
-		std::cout << "\n";
-	}
 }

@@ -1,8 +1,6 @@
 #ifndef _DECK_
 #define _DECK_
 
-#include <iostream>
-
 #include "Card.h"
 
 extern int seed;

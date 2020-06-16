@@ -80,4 +80,5 @@ std::ostream &operator<<(std::ostream& out, const Deck& deck)
 				std::cout << "\n";
 		}
 	}
+	return out;
 }

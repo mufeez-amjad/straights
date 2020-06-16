@@ -22,7 +22,7 @@ struct GameData
 	int _cardsInHand;
 	std::unordered_set<int> _validMoves;
 	Deck* _deck;
-	Card* _table[CARD_COUNT];
+	CardTable* _table;
 	PlayerRecord _players[PLAYER_COUNT];
 };
 

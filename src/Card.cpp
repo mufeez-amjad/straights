@@ -33,6 +33,11 @@ int Card::hash(int i, int j)
 	return Card::hash((Suit)i, (Rank)j);
 }
 
+int Card::getValue(void) const
+{
+	return rank_ + 1;
+}
+
 Card::Card(Suit s, Rank r)
 {
 	suit_ = s;
