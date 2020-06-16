@@ -25,10 +25,10 @@ void Player::removeCard(Card* c)
 	// std::cout << "hand after removing a card: " << this->getHand() << "\n";
 }
 
-void Player::setHand(Card** c)
+void Player::setHand(Deck& deck, unsigned int index)
 {
-	for (Card** i = c; i < c + RANK_COUNT; i++)
-		_hand.push_back(*i);
+	for (unsigned int i = index; i < index + RANK_COUNT; i++)
+		_hand.push_back(deck.at(i));
 }
 
 void Player::resetHand()

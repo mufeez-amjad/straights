@@ -110,11 +110,8 @@ void Game::_playRound(void)
 	// std::cerr << "Shuffled Deck \n";
 	// std::cout << *this->_gameData->_deck << "\n";
 
-	for (int i = 0; i < PLAYER_COUNT; ++i) {
-		this->_gameData->_players[i].player->setHand(
-			&this->_gameData->_deck[RANK_COUNT*i]
-		);
-	}
+	for (int i = 0; i < PLAYER_COUNT; ++i)
+		this->_gameData->_players[i].player->setHand(*this->_gameData->_deck, RANK_COUNT * i);
 
 	this->_gameData->_cardsInHand = CARD_COUNT;
 

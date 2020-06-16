@@ -4,7 +4,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "Card.h"
+#include "Deck.h"
 #include "Command.h"
 
 #define PLAYER_COUNT 4
