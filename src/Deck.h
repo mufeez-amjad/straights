@@ -11,7 +11,7 @@ class Deck
 
 	public:
 		Deck();
-		~Deck();
+		~Deck() noexcept;
 
 		void shuffle(void);
 		Card* at(unsigned int);

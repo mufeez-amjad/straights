@@ -15,7 +15,7 @@ Deck::Deck()
 	}
 }
 
-Deck::~Deck()
+Deck::~Deck() noexcept
 {
 	if (this->_cards != nullptr) {
 		for (int i = 0; i < CARD_COUNT; ++i)
