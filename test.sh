@@ -19,7 +19,7 @@ do
         regress_file="${test:0:$substr_len}_seed_$i.out"
         echo $regress_file
         diff=$(diff <(echo "$out") <(cat $regress_file))
-        valgrind=$(valgrind --leak-check=full --error-exitcode=1 ./straights < $test 2>&1) 
+        valgrind=$(valgrind --leak-check=full --error-exitcode=1 ./straights < $test 2>&1)
 		is_mem_leak=$?
         if [ "$diff" != "" ] || [ $is_mem_leak == 1 ] || [ $out_return == 139 ]
         then
