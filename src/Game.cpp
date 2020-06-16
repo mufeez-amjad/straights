@@ -275,6 +275,12 @@ void Game::_playCard(Card* card)
 			this->_addValidMove(hash + 1);
 			// no rank is lower than Ace
 			break;
+		case SEVEN:
+			if (card->getSuit() == SPADE){
+				this->_addValidMove(Card(CLUB, SEVEN).getHash());
+				this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
+				this->_addValidMove(Card(HEART, SEVEN).getHash());
+			}
 		default:
 			this->_addValidMove(hash + 1);
 			this->_addValidMove(hash - 1);
@@ -331,8 +337,5 @@ bool Game::_isValidMove(int hash)
 void Game::_resetValidMoves(void)
 {
 	this->_gameData->_validMoves.clear();
-	this->_addValidMove(Card(CLUB, SEVEN).getHash());
-	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
-	this->_addValidMove(Card(HEART, SEVEN).getHash());
 	this->_addValidMove(Card(SPADE, SEVEN).getHash());
 }
