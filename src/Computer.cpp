@@ -5,6 +5,7 @@
 
 Computer::Computer(Player& p)
 {
+	_type = PlayerType::COMPUTER;
 	setHand(p.getHand());
 	setDiscards(p.getDiscards());
 }

@@ -136,19 +136,26 @@ void Game::_playRound(void)
 		this->_playTurn();
 		this->_updateActivePlayer();
 
-		if (this->_roundOver())
+		if (this->_roundOver()) {
 			this->_gameData->_activeRound = false;
+		}
 	}
-	if (this->_gameData->_playing)
+
+	if (this->_gameData->_playing) { // TODO: verify
 		this->_scoreRound();
+		for (int i = 0; i < PLAYER_COUNT; i++) {
+			this->_getPlayer(i).player->resetHand();
+		}
+	}
 }
 
 void Game::_scoreRound(void)
 {
 	for (int i = 0; i < PLAYER_COUNT; i++) {
+
 		int score = this->_getPlayer(i).score;
 		int points = this->_getPlayer(i).points;
-
+		
 		std::cout << "Player " << i+1 << "'s discards: " << this->_getPlayer(i).player->getDiscards() << '\n';
 
 		std::cout << "Player " << i+1 << "'s score: "

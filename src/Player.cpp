@@ -29,6 +29,12 @@ void Player::setDiscards(std::vector<Card*> discards)
 	_discards = discards;
 }
 
+void Player::resetHand() {
+	std::vector<Card*> empty;
+	_hand = empty;
+	_discards = empty;
+}
+
 void Player::discardCard(Card c)
 {
 	Card* discardedCard;

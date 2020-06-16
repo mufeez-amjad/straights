@@ -31,7 +31,7 @@ class Player
 		void setHand(Card**);
 		void setHand(std::vector<Card*>);
 		void setDiscards(std::vector<Card*>);
-
+		void resetHand();
 	private:
 		std::vector<Card*> _hand;
 		std::vector<Card*> _discards;
