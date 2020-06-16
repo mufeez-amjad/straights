@@ -318,6 +318,9 @@ void Game::_playCard(Card* card)
 			this->_addValidMove(hash - 1);
 			break;
 	}
+
+	if (*card == Card(SPADE, SEVEN))
+		this->_makeSevensValidMoves();
 }
 
 void Game::_discardCard(Card* card)
@@ -369,10 +372,14 @@ bool Game::_isValidMove(int hash)
 void Game::_resetValidMoves(void)
 {
 	this->_gameData->_validMoves.clear();
+	this->_addValidMove(Card(SPADE, SEVEN).getHash());
+}
+
+void Game::_makeSevensValidMoves(void)
+{
 	this->_addValidMove(Card(CLUB, SEVEN).getHash());
 	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
 	this->_addValidMove(Card(HEART, SEVEN).getHash());
-	this->_addValidMove(Card(SPADE, SEVEN).getHash());
 }
 
 // Table Methods
