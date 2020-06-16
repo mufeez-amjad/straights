@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <iostream>
+
 Player::~Player()
 {
 
@@ -7,10 +9,15 @@ Player::~Player()
 
 void Player::removeCard(Card* c)
 {
+
+	// std::cout << "hand before removing a card: " << this->getHand() << "\n";
+
 	for (auto i = _hand.begin(); i != _hand.end(); i++) {
 		if (*i == c)
 			_hand.erase(i--);
 	}
+
+	// std::cout << "hand after removing a card: " << this->getHand() << "\n";
 }
 
 void Player::setHand(Card** c)

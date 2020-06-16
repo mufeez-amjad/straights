@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 
 #include "Human.h"
 #include "Card.h"
@@ -7,6 +8,19 @@ Command Human::playTurn(std::unordered_set<int> &validTurns)
 {
 	Command co;
 	std::cin >> co;
+
+	if (co.type == PLAY || co.type == DISCARD) {
+		bool found = false;
+
+		for (auto c : getHand()) {
+			if (*c == co.card) {
+				found = true;
+				break;
+			}
+		}
+
+		assert(found);
+	}
 
 	switch (co.type) {
 		case PLAY:

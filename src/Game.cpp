@@ -108,6 +108,7 @@ void Game::_playRound(void)
 
 	this->_clearTable();
 	this->_shuffleDeck();
+	this->_resetValidMoves();
 
 	// std::cerr << "Shuffled Deck \n";
 	// this->_printDeck();
@@ -120,11 +121,6 @@ void Game::_playRound(void)
 
 	this->_gameData->_cardsInHand = CARD_COUNT;
 
-	this->_addValidMove(Card(CLUB, SEVEN).getHash());
-	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
-	this->_addValidMove(Card(HEART, SEVEN).getHash());
-	this->_addValidMove(Card(SPADE, SEVEN).getHash());
-
 	int i = 0;
 	while(this->_gameData->_deck[i]->getRank() != SEVEN || this->_gameData->_deck[i]->getSuit() != SPADE) { ++i; }
 
@@ -136,9 +132,8 @@ void Game::_playRound(void)
 		this->_playTurn();
 		this->_updateActivePlayer();
 
-		if (this->_roundOver()) {
+		if (this->_roundOver())
 			this->_gameData->_activeRound = false;
-		}
 	}
 
 	if (this->_gameData->_playing) { // TODO: verify
@@ -155,7 +150,7 @@ void Game::_scoreRound(void)
 
 		int score = this->_getPlayer(i).score;
 		int points = this->_getPlayer(i).points;
-		
+
 		std::cout << "Player " << i+1 << "'s discards: " << this->_getPlayer(i).player->getDiscards() << '\n';
 
 		std::cout << "Player " << i+1 << "'s score: "
@@ -252,12 +247,12 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 
 	switch (c.type) {
 		case PLAY:
-			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " plays " << c.card << '\n';
+			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " plays " << c.card << ".\n";
 			this->_playCard(this->_gameData->_orderedDeck[c.card.getHash()]);
 			current.player->removeCard(this->_gameData->_orderedDeck[c.card.getHash()]);
 			break;
 		case DISCARD:
-			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " discards " << c.card << '\n';
+			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " discards " << c.card << ".\n";
 			this->_discardCard(this->_gameData->_orderedDeck[c.card.getHash()]);
 			break;
 		case DECK:
@@ -268,7 +263,9 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 			this->_quitGame();
 			break;
 		case RAGEQUIT:
+			std::cout << "Player " << this->_gameData->_currentPlayer + 1 << " ragequits. A computer will now take over.\n";
 			this->_humanToComputer(current.player);
+			// update valid turn
 			return true;
 			break;
 		default:
@@ -287,10 +284,14 @@ void Game::_playTurn(void)
 		this->_printHumanPrompt(hand);
 	}
 
-	std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(hand);
-
 	bool requery = false;
 	do {
+		std::unordered_set<int> playerLegalPlays = this->_calculatePlayerLegalPlays(hand);
+		// std::cerr << "playerLegalPlays: ";
+		// for (auto& p: playerLegalPlays) {
+		// 	std::cerr << Card(p) << " ";
+		// }
+		// std::cerr << "\n";
 		requery = this->_queryTurn(current, playerLegalPlays);
 	} while (requery);
 }
@@ -365,6 +366,15 @@ bool Game::_isValidMove(int hash)
 	return this->_gameData->_validMoves.find(hash) != this->_gameData->_validMoves.end();
 }
 
+void Game::_resetValidMoves(void)
+{
+	this->_gameData->_validMoves.clear();
+	this->_addValidMove(Card(CLUB, SEVEN).getHash());
+	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
+	this->_addValidMove(Card(HEART, SEVEN).getHash());
+	this->_addValidMove(Card(SPADE, SEVEN).getHash());
+}
+
 // Table Methods
 
 void Game::_addToTable(Card* card)
@@ -386,7 +396,7 @@ void Game::_printTable(void)
 		std::cout << Card::getName((Suit)i) << ":";
 		for (int j = 0; j < RANK_COUNT; j++) {
 			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr)
-				std::cout << " " << *this->_gameData->_table[Card::hash((Suit)i, (Rank)j)];
+				std::cout << " " << this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank() + 1;
 		}
 		std::cout << "\n";
 	}

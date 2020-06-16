@@ -89,6 +89,8 @@ class Game
 		bool _isValidMove(Card*);
 		bool _isValidMove(int);
 
+		void _resetValidMoves(void);
+
 		// Table methods ======================================================
 		void _addToTable(Card*);
 
