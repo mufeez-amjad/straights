@@ -319,6 +319,7 @@ void Game::_playCard(Card* card)
 			break;
 	}
 
+	// after the 7 of spades has been played, all 7s are valid plays
 	if (*card == Card(SPADE, SEVEN))
 		this->_makeSevensValidMoves();
 }
