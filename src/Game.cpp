@@ -97,7 +97,7 @@ void Game::_declareWinner(void)
 	}
 	for (int i = 0; i < PLAYER_COUNT; i++) {
 		if (this->_gameData->_players[i].score == minScore)
-			std::cout << "Player " << i + 1 << " wins!\n";
+			std::cout << "Player " << i + 1 << " wins!";
 	}
 }
 
@@ -151,7 +151,12 @@ void Game::_scoreRound(void)
 		int score = this->_getPlayer(i).score;
 		int points = this->_getPlayer(i).points;
 
-		std::cout << "Player " << i+1 << "'s discards: " << this->_getPlayer(i).player->getDiscards() << '\n';
+		std::vector<Card*> discards = this->_getPlayer(i).player->getDiscards();
+
+		if (discards.size()) //TODO: fix trailing space for empty discards better
+			std::cout << "Player " << i+1 << "'s discards: " << discards << '\n';
+		else
+			std::cout << "Player " << i+1 << "'s discards:\n";
 
 		std::cout << "Player " << i+1 << "'s score: "
 		          << score << " + " << points
@@ -403,8 +408,29 @@ void Game::_printTable(void)
 	for (int i = 0; i < SUIT_COUNT; i++) {
 		std::cout << Card::getName((Suit)i) << ":";
 		for (int j = 0; j < RANK_COUNT; j++) {
-			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr)
-				std::cout << " " << this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank() + 1;
+			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr) {
+				Rank rank = this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank();
+
+				switch (rank)
+				{
+					case ACE:
+						std::cout << " A"; 
+						break;
+					case JACK:
+						std::cout << " J";
+						break;
+					case QUEEN:
+						std::cout << " Q";
+						break;
+					case KING:
+						std::cout << " K";
+						break;
+					default:
+						// std::cerr << rank << "\n";
+						std::cout << " " << rank+1;
+						break;
+				}
+			}
 		}
 		std::cout << "\n";
 	}
