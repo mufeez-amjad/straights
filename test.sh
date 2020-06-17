@@ -12,18 +12,22 @@ for i in 0 1 2 3
 do
     for test in $tests
     do
-        out=$(./straights $i < $test)
-        out_return=$?
         size=${#test}
         substr_len=$(expr ${size} - 3)
-        regress_file="${test:0:$substr_len}_seed_$i.out"
+        test_name="${test:0:$substr_len}"
+        regress_file="${test_name}_seed_$i.out"
+        tmpfile=$(mktemp "$test_name".XXXXXX)
         echo $regress_file
-        diff=$(diff <(echo "$out") <(cat $regress_file))
+        ./straights $i < $test > $tmpfile
+        out_return=$?
+        diff=$(diff $tmpfile $regress_file)
+        different=$?
         valgrind=$(valgrind --leak-check=full --error-exitcode=1 ./straights < $test 2>&1)
 		is_mem_leak=$?
-        if [ "$diff" != "" ] || [ $is_mem_leak == 1 ] || [ $out_return == 139 ]
+        if [ $different != 0 ] || [ $is_mem_leak == 1 ] || [ $out_return == 139 ]
         then
             printf "Failed!"
+            # echo "$diff"
             if [ $is_mem_leak == 1 ]
             then
                 printf " memleak"
@@ -34,5 +38,7 @@ do
             fi
             printf '\n'
         fi
+
+        rm "$tmpfile"
     done
 done
