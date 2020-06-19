@@ -1,7 +1,7 @@
 #ifndef _CARDTABLE_
 #define _CARDTABLE_
 
-#include "Card.h"
+#include "CardTablePimpl.h"
 
 //============================================================================
 // CardTable represents a table of cards which have currently been played in
@@ -20,8 +20,9 @@ class CardTable
 
 	public:
 		CardTable();
+		~CardTable();
 
-		bool addCard(Card*);
+		void addCard(Card*);
 			// returns: true if the Card* is added to the table, otherwise
 			//          returns false if the Card* is null or not added to the
 			//          table. Card* is not added if it is already on the table
@@ -32,7 +33,7 @@ class CardTable
 			// modifies: sets all indicies of _table to nullptr
 
 	private:
-		Card* _table[CARD_COUNT];
+		CardTableData* _cardTableData;
 };
 
 std::ostream &operator<< (std::ostream&, CardTable&);
