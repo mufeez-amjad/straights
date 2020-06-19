@@ -6,7 +6,7 @@
 //============================================================================
 // Computer is a derived class from Player which represents a player in a game,
 // whose actions are automated by the game class.
-// 
+//
 // Specification fields:
 //		_type: enum class PlayerType char{ HUMAN = 'h', COMPUTER = 'c' }
 //			- protected for child classes to derive
@@ -25,6 +25,8 @@ class Computer : public Player
 {
 	public:
 		Computer() : Player() { _type = PlayerType::COMPUTER; };
+		Computer& operator=(const Computer&) noexcept;
+
 		Computer(Player&);
 
 		Command playTurn(std::unordered_set<int>&) override;

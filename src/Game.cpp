@@ -5,7 +5,7 @@
 #include <unordered_set>
 #include <cassert>
 
-// Create singleton instance
+// Instantiate singleton instance
 Game Game::_game;
 
 Game::Game()
@@ -118,7 +118,7 @@ void Game::_playRound(void)
 			this->_gameData->_activeRound = false;
 	}
 
-	if (this->_gameData->_playing) { // TODO: verify
+	if (this->_gameData->_playing) {
 		this->_scoreRound();
 		for (int i = 0; i < PLAYER_COUNT; i++)
 			this->_getPlayer(i).player->resetHand();
@@ -308,8 +308,6 @@ void Game::_humanToComputer(Player* player)
 	delete currentPlayer;
 	this->_gameData->_players[this->_gameData->_currentPlayer].player = computer;
 }
-
-// Valid Move Methods
 
 void Game::_addValidMove(Card* card)
 {
