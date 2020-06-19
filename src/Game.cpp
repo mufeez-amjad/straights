@@ -101,7 +101,7 @@ void Game::_playRound(void)
 	for (int i = 0; i < PLAYER_COUNT; ++i)
 		this->_gameData->_players[i].player->setHand(*this->_gameData->_deck, RANK_COUNT * i);
 
-	this->_gameData->_cardsInHand = CARD_COUNT;
+	this->_gameData->_cardsInPlay = CARD_COUNT;
 
 	int i = 0;
 	while(this->_gameData->_deck->at(i)->getRank() != SEVEN || this->_gameData->_deck->at(i)->getSuit() != SPADE) { ++i; }
@@ -156,7 +156,7 @@ bool Game::_gameOver(void)
 
 bool Game::_roundOver(void)
 {
-	return this->_gameData->_cardsInHand == 0;
+	return this->_gameData->_cardsInPlay == 0;
 }
 
 void Game::_updateActivePlayer(void)
@@ -262,7 +262,7 @@ void Game::_playTurn(void)
 void Game::_playCard(Card* card)
 {
 	this->_gameData->_table->addCard(card);
-	this->_gameData->_cardsInHand--;
+	this->_gameData->_cardsInPlay--;
 
 	this->_removeValidMove(card);
 
@@ -297,7 +297,7 @@ void Game::_playCard(Card* card)
 void Game::_discardCard(Card* card)
 {
 	this->_getCurrentPlayer().points += card->getValue();
-	this->_gameData->_cardsInHand--;
+	this->_gameData->_cardsInPlay--;
 }
 
 void Game::_humanToComputer(Player* player)

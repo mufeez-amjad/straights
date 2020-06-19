@@ -8,18 +8,44 @@
 
 #define TARGET_SCORE 80
 
+//============================================================================
+// Game is a singleton class which represents a single instance of the game
+// straights with the following specification fields:
+// 
+// The private implementation of Game's data members _gameData:
+//		bool _playing		- Whether the game is being played. Used to 
+//							  determine whether a human player has asked to
+//							  quit the game during an active round
+//		bool _activeRound	- Whether a round of straights is being played.
+//							  Updated after scoring each round.
+//		int _currentPlayer	- The number of the current player [1,2,3,4]. 
+//							  Updated after every turn by incrementing.
+//		int _cardsInPlay	- The number of cards from the deck which have
+//							  been played. Initialized to CARD_COUNT and
+//							  decremented each time a card moves from a
+//							  player's hand to the table
+//		std::unordered_set<int> _validMoves;
+//							- Initialized to [7S], or more specifically an int
+//							  that maps to it and updated based on the cards 
+//							  in play on the table after every turn
+//		Deck* _deck			- An instance of the Deck class, stores the
+//							  CARD_COUNT number of cards for the game.
+//		CardTable* _table	- An instance of the CardTable class, stores the 
+//							  current cards in play.
+//		PlayerRecord _players[PLAYER_COUNT] - Array of PlayerRecord structs
+//			int score		- Accumulates the total score of a player over 
+//							  multiple rounds Modified after every round by 
+//							  the game class for all players.
+//			int points		- Stores the points for a player during a specific
+//							  round. Modified everytime the player discards by
+//							  the game class.
+//			Player* player	- An instance of the Player class for each player.
+// 
+//============================================================================
+
+
 class Game
 {
-	// Private Implementation for data members GameData
-		// PlayerRecord _players[]
-			// int score
-			// int points
-			// Player* player
-		// PlayerNumber _currentTurn {ONE, TWO, THREE, FOUR}
-		// Deck* _deck
-		// CardTable* _table
-		// std::unordered_set<int> _validMoves;
-
 	public:
 		static Game* instance();
 			// returns: the singleton instance of Game class
