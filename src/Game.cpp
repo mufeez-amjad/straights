@@ -21,7 +21,7 @@ void Game::_invitePlayers(void)
 {
 	std::string choice;
 	for (int i = 0; i < PLAYER_COUNT; i++) {
-		std::cout << "Is player " << i + 1 << " a human (h) or a computer (c)?\n>";
+		std::cout << "Is player " << i + 1 << " a human (h) or a computer (c)?\n> ";
 
 		while (std::cin >> choice && choice != "h" && choice != "c") {}
 
