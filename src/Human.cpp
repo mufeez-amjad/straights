@@ -6,6 +6,9 @@
 
 Human& Human::operator=(const Human& h) noexcept
 {
+	if (this == &h)
+		return *this;
+
 	Human h_copy = Human(h);
 
 	PlayerData* temp_player = this->_playerData;

@@ -5,6 +5,9 @@
 
 Computer& Computer::operator=(const Computer& c) noexcept
 {
+	if (this == &c)
+		return *this;
+
 	Computer c_copy = Computer(c);
 
 	PlayerData* temp_player = this->_playerData;

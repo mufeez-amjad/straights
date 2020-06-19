@@ -30,6 +30,9 @@ Player::Player(Player&& p) noexcept
 
 Player& Player::operator=(Player&& p) noexcept
 {
+	if (this == &p)
+		return *this;
+
 	this->_type = p._type;
 
 	PlayerData* temp_player = this->_playerData;
@@ -38,7 +41,6 @@ Player& Player::operator=(Player&& p) noexcept
 
 	return *this;
 }
-
 
 Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
 	this->_playerData = new PlayerData();
@@ -49,15 +51,10 @@ Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
 
 void Player::removeCard(Card* c)
 {
-
-	// std::cout << "hand before removing a card: " << this->getHand() << "\n";
-
 	for (auto i = _playerData->_hand.begin(); i != _playerData->_hand.end(); i++) {
 		if (*i == c)
 			_playerData->_hand.erase(i--);
 	}
-
-	// std::cout << "hand after removing a card: " << this->getHand() << "\n";
 }
 
 void Player::setHand(Deck& deck, unsigned int index)

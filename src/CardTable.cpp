@@ -18,7 +18,6 @@ CardTable::~CardTable() noexcept
 		delete _cardTableData;
 }
 
-
 CardTable::CardTable(const CardTable& c) noexcept
 {
 	this->_cardTableData = new CardTableData();
@@ -33,6 +32,9 @@ CardTable::CardTable(const CardTable& c) noexcept
 
 CardTable& CardTable::operator=(const CardTable& c) noexcept
 {
+	if (this == &c)
+		return *this;
+
 	CardTable c_copy = CardTable(c);
 
 	CardTableData* temp_table = this->_cardTableData;
@@ -50,13 +52,15 @@ CardTable::CardTable(CardTable&& c) noexcept
 
 CardTable& CardTable::operator=(CardTable&& c) noexcept
 {
+	if (this == &c)
+		return *this;
+
 	CardTableData* temp_table = this->_cardTableData;
 	this->_cardTableData = c._cardTableData;
 	c._cardTableData = temp_table;
 
 	return *this;
 }
-
 
 void CardTable::addCard(Card* card)
 {

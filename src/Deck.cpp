@@ -41,6 +41,9 @@ Deck::Deck(const Deck& d) noexcept
 
 Deck& Deck::operator=(const Deck& d) noexcept
 {
+	if (this == &d)
+		return *this;
+
 	Deck d_copy = Deck(d);
 
 	DeckData* temp_deck = this->_deckData;
@@ -58,6 +61,9 @@ Deck::Deck(Deck&& d) noexcept
 
 Deck& Deck::operator=(Deck&& d) noexcept
 {
+	if (this == &d)
+		return *this;
+
 	DeckData* temp_deck = this->_deckData;
 	this->_deckData = d._deckData;
 	d._deckData = temp_deck;

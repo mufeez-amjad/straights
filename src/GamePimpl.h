@@ -9,8 +9,11 @@
 
 struct PlayerRecord
 {
-	int score;  // round accumulator
-	int points; // single round score
+	// round accumulator
+	int score;
+	// single round score
+	int points;
+
 	Player* player;
 };
 
