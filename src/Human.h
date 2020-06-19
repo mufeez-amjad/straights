@@ -9,6 +9,9 @@ class Human : public Player
 		Human() : Player() { _type = PlayerType::HUMAN; };
 
 		Command playTurn(std::unordered_set<int>&) override;
+		// returns:  The move the Human Player requests via std::cin
+		// throws:   InvalidMoveException if the requested move specified
+		//           from std::cin is illegal.
 
 		class InvalidMoveException
 		{
@@ -21,6 +24,9 @@ class Human : public Player
 
 	private:
 		bool _isValidTurn(Card, std::unordered_set<int>&);
+		// returns:  True if playing the Card passed as the first parameter
+		//           is in the set of valid moves (passed by reference as
+		//           the second parameter).
 };
 
 #endif

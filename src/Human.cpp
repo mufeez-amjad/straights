@@ -7,6 +7,7 @@
 Command Human::playTurn(std::unordered_set<int> &validTurns)
 {
 	Command co;
+	std::cout << ">";
 	std::cin >> co;
 
 	if (co.type == PLAY || co.type == DISCARD) {

@@ -21,9 +21,6 @@ Command Computer::playTurn(std::unordered_set<int> &validTurns) {
 		std::vector<Card*> hand = getHand();
 		Card c = *hand.at(0);
 
-		// std::cout << "hand before discard: " << getHand() << "\n";
-		// std::cout << "discarding card " << c << "...\n";
-
 		co.card = c;
 		co.type = DISCARD;
 		discardCard(c);
