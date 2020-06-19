@@ -9,12 +9,14 @@
 
 #define PLAYER_COUNT 4
 
-enum class PlayerType : char {
-     HUMAN = 'h',
-     COMPUTER = 'c',
+enum class PlayerType : char
+{
+	HUMAN = 'h',
+	COMPUTER = 'c',
 };
 
-struct PlayerData {
+struct PlayerData
+{
 	std::vector<Card*> _hand;
 	std::vector<Card*> _discards;
 };

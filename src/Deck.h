@@ -12,6 +12,7 @@ extern int seed;
 // are instances of the card class.
 //
 // Specification fields:
+//	The private implementation of Deck's data members _deckData:
 //		Card* _cards[CARD_COUNT]
 //			- Stores pointers to card objects that fully specify a CARD_COUNT
 //			  number cards for a deck in a game. This is the deck which will
@@ -28,6 +29,11 @@ class Deck
 	public:
 		Deck();
 		~Deck() noexcept;
+
+		Deck(const Deck&) noexcept;
+		Deck& operator=(const Deck&) noexcept;
+		Deck(Deck&&) noexcept;
+		Deck& operator=(Deck&&) noexcept;
 
 		void shuffle(void);
 			// modifies: shuffles the deck using a pseudo-random number

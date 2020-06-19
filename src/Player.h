@@ -34,6 +34,10 @@ class Player
 		Player(std::vector<Card*>, std::vector<Card*>);
 		virtual ~Player() noexcept;
 
+		Player(const Player&) noexcept;
+		Player(Player&&) noexcept;
+		Player& operator=(Player&&) noexcept;
+
 		// Accessors
 		std::vector<Card*> getHand(void) const;
 			// returns: The Player's hand
@@ -60,11 +64,10 @@ class Player
 		void resetHand();
 			// ensures: The players hand and list of discards are empty.
 
-	private:
-		PlayerData* _playerData;
-
 	protected:
 		PlayerType _type;
+		PlayerData* _playerData;
+
 		void discardCard(Card);
 			// ensures: The Card passed as the parameter is moved from the
 			//          player's hand to their list of discards.
