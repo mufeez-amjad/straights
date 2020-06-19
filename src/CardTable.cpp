@@ -1,5 +1,7 @@
 #include "CardTable.h"
 
+#include <cassert>
+
 CardTable::CardTable()
 {
 	_cardTableData = new CardTableData();
