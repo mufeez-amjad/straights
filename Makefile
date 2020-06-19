@@ -30,22 +30,23 @@ all: ${OUTPUT_BIN}
 
 ${BIN_DIR}/%.o: %.cpp
 	@echo "building $@ from $^..."
-	${CXX} ${INCLUDES} ${CXXFLAGS} -c $< -o $@
+	@${CXX} ${INCLUDES} ${CXXFLAGS} -c $< -o $@
 
 ${OUTPUT_BIN}: stage ${OBJECTS}
-	${CXX} ${INCLUDES} ${CCXFLAGS} -o ${OUTPUT_BIN} ${filter %.o, $^}
+	@echo "linking straights..."
+	@${CXX} ${INCLUDES} ${CCXFLAGS} -o ${OUTPUT_BIN} ${filter %.o, $^}
 
 -include ${DEPENDENCIES}
 
 stage:
 ifeq (,${wildcard ${BIN_DIR}})
 	@echo "creating binary directory..."
-	${MKDIR} ${BIN_DIR}
+	@${MKDIR} ${BIN_DIR}
 endif
 
 clean:
 	@echo "cleaning project..."
 ifneq (,${wildcard ${BIN_DIR}})
-	${RM} ${BIN_DIR}/*
+	@${RM} ${BIN_DIR}/*
 endif
-	${RM} ${PROJECT_DIR}/${OUTPUT_BIN}
+	@${RM} ${PROJECT_DIR}/${OUTPUT_BIN}
