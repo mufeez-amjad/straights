@@ -134,10 +134,7 @@ void Game::_scoreRound(void)
 
 		std::vector<Card*> discards = this->_getPlayer(i).player->getDiscards();
 
-		if (discards.size()) //TODO: fix trailing space for empty discards better
-			std::cout << "Player " << i+1 << "'s discards: " << discards << '\n';
-		else
-			std::cout << "Player " << i+1 << "'s discards:\n";
+		std::cout << "Player " << i+1 << "'s discards:" << discards << '\n';
 
 		std::cout << "Player " << i+1 << "'s score: "
 		          << score << " + " << points
@@ -182,7 +179,7 @@ PlayerRecord& Game::_getPlayer(int playerNumber)
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
 {
 	std::cout << "Cards on the table:\n" << this->_gameData->_table << "\n";
-	std::cout << "Your hand: " << hand << "\n";
+	std::cout << "Your hand:" << hand << "\n";
 	std::cout << "Legal plays:";
 	for (auto& c: hand) {
 		if (this->_isValidMove(c))
@@ -382,7 +379,7 @@ void Game::_makeSevensValidMoves(void)
 // 				switch (rank)
 // 				{
 // 					case ACE:
-// 						std::cout << " A"; 
+// 						std::cout << " A";
 // 						break;
 // 					case JACK:
 // 						std::cout << " J";

@@ -116,9 +116,9 @@ std::istream &operator>>(std::istream& in, Card& c)
 std::ostream &operator<<(std::ostream& out, const std::vector<Card*>& cards)
 {
 	for (size_t i = 0; i < cards.size(); i++) {
-		out << *cards.at(i);
 		if (i != cards.size() - 1)
 			out << " ";
+		out << *cards.at(i);
 	}
 	return out;
 }
