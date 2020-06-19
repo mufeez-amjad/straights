@@ -8,7 +8,8 @@ Player::~Player() noexcept
 		delete _playerData;
 }
 
-Player::Player() {
+Player::Player()
+{
 	this->_playerData = new PlayerData();
 }
 
@@ -85,14 +86,17 @@ void Player::discardCard(Card c)
 	_playerData->_discards.push_back(discardedCard);
 }
 
-std::vector<Card*> Player::getHand(void) const {
+std::vector<Card*> Player::getHand(void) const
+{
 	return _playerData->_hand;
 }
 
-std::vector<Card*> Player::getDiscards(void) const {
+std::vector<Card*> Player::getDiscards(void) const
+{
 	return _playerData->_discards;
 }
 
-PlayerType Player::getType(void) const {
+PlayerType Player::getType(void) const
+{
 	return _type;
 }
