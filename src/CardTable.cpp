@@ -15,7 +15,7 @@ bool CardTable::addCard(Card* card)
 
 	int hash = card->getHash();
 
-	if (this->_table[hash] == nullptr || hash >= CARD_COUNT)
+	if (this->_table[hash] != nullptr || hash >= CARD_COUNT)
 		return false;
 
 	this->_table[hash] = card;
@@ -34,8 +34,9 @@ std::ostream &operator<< (std::ostream& out, CardTable& table)
 		std::cout << Card::getName((Suit)i) << ":";
 
 		for (int j = 0; j < RANK_COUNT; j++) {
-			if (table._table[Card::hash(i, j)] != nullptr)
+			if (table._table[Card::hash(i, j)] != nullptr) {
 				std::cout << " " << table._table[Card::hash(i, j)]->getSymbol();
+			}
 		}
 		if (i != SUIT_COUNT - 1)
 			std::cout << "\n";

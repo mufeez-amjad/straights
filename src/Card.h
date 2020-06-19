@@ -29,7 +29,7 @@ public:
 	int getValue(void) const;
 		// returns: the card's numeric value
 
-	char getSymbol(void) const;
+	std::string getSymbol(void) const;
 		// returns: the card's symbol
 
 	int getHash(void) const;
