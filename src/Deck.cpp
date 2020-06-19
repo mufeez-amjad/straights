@@ -26,7 +26,7 @@ Deck::~Deck() noexcept
 Card* Deck::at(unsigned int index)
 {
 	if (index >= CARD_COUNT)
-		return nullptr;
+		throw std::out_of_range("Deck index out of range");
 
 	return this->_cards[index];
 }

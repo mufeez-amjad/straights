@@ -17,7 +17,6 @@ class Card
 public:
 	Card(Suit, Rank);
 	Card(int);
-
 	Card(const Card&) noexcept;
 
 	Suit getSuit(void) const;
@@ -36,8 +35,13 @@ public:
 		// returns: the card's hash = (13 * Suit) + Rank
 
 	static int hash(Suit, Rank);
+		// returns: the hash of a card with Suit and Rank of parameters
 	static int hash(int, int);
+		// returns: the hash of a card with Suit and Rank of the enums with
+		//          integer values as specified in parameters for suit, rank
+
 	static std::string& getName(Suit);
+		// returns: the full string name of the card's suit
 
 private:
 	Suit suit_;
@@ -49,7 +53,6 @@ bool operator==(const Card&, const Card&);
 // output/input Card in the format <rank><suit>
 std::ostream &operator<<(std::ostream&, const Card&);
 std::istream &operator>>(std::istream&, Card&);
-
 std::ostream &operator<<(std::ostream&, const std::vector<Card*>&);
 
 #endif

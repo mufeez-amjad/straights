@@ -302,6 +302,7 @@ void Game::_discardCard(Card* card)
 
 void Game::_humanToComputer(Player* player)
 {
+	assert(player->getType() == PlayerType::HUMAN);
 	Player* currentPlayer = this->_getCurrentPlayer().player;
 	Computer* computer = new Computer(*currentPlayer);
 	delete currentPlayer;
