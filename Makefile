@@ -1,44 +1,36 @@
 # Commands
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -O0 -g -MMD
+CXXFLAGS = -std=c++17 -Wall -g -DNDEBUG -MMD
 RM = rm -f
 MKDIR = mkdir -p
 
 # Source locations
 SRC_DIR = ./src
-PROJECT_DIR = .
-
-# Include paths
-INCLUDES = -Isrc -Iinc -I${SRC_DIR}
 
 # Output files
 BIN_DIR = ./bin
-OUTPUT_BIN = straights
+OUTPUT = straights
 
-OBJECT_FILES = ${addsuffix .o, ${basename ${notdir ${wildcard ${SRC_DIR}/*.cpp}}}}
-OBJECTS = ${addprefix ${BIN_DIR}/, ${OBJECT_FILES}}
+OBJ_FILES = ${addsuffix .o, ${basename ${notdir ${wildcard ${SRC_DIR}/*.cpp}}}}
+OBJ = ${addprefix ${BIN_DIR}/, ${OBJ_FILES}}
 
-DEPENDENCIES = ${OBJECTS:.o=.d}
+DEPENDS = ${OBJ:.o=.d}
 
-.PHONY: all stage clean
+.PHONY: all bin clean
 
-# vpath
-vpath
-vpath %.cpp ${SRC_DIR}/
+all: straights
 
-all: ${OUTPUT_BIN}
-
-${BIN_DIR}/%.o: %.cpp
+${BIN_DIR}/%.o: ${SRC_DIR}/%.cpp
 	@echo "building $@ from $^..."
-	@${CXX} ${INCLUDES} ${CXXFLAGS} -c $< -o $@
+	@${CXX} ${CXXFLAGS} -c $< -o $@
 
-${OUTPUT_BIN}: stage ${OBJECTS}
+straights: bin ${OBJ}
 	@echo "linking straights..."
-	@${CXX} ${INCLUDES} ${CCXFLAGS} -o ${OUTPUT_BIN} ${filter %.o, $^}
+	@${CXX} ${CCXFLAGS} ${OBJ} -o ${OUTPUT}
 
--include ${DEPENDENCIES}
+-include ${DEPENDS}
 
-stage:
+bin:
 ifeq (,${wildcard ${BIN_DIR}})
 	@echo "creating binary directory..."
 	@${MKDIR} ${BIN_DIR}
@@ -49,4 +41,4 @@ clean:
 ifneq (,${wildcard ${BIN_DIR}})
 	@${RM} ${BIN_DIR}/*
 endif
-	@${RM} ${PROJECT_DIR}/${OUTPUT_BIN}
+	@${RM} ${OUTPUT}

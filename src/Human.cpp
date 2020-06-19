@@ -19,8 +19,12 @@ Command Human::playTurn(std::unordered_set<int> &validTurns)
 				break;
 			}
 		}
-
-		assert(found);
+		if (!found) {
+			// supress unused variable warning when compiling without assertions
+			// leave in curly braces since assert() macro will be removed by
+			// -DNDEBUG flag
+			assert(false);
+		}
 	}
 
 	switch (co.type) {
