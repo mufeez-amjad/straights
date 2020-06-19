@@ -30,6 +30,11 @@ class Deck
 		Deck();
 		~Deck() noexcept;
 
+		Deck(const Deck&) noexcept;
+		Deck& operator=(const Deck&) noexcept;
+		Deck(Deck&&) noexcept;
+		Deck& operator=(Deck&&) noexcept;
+
 		void shuffle(void);
 			// modifies: shuffles the deck using a pseudo-random number
 			//           generator, seeded by the global variable seed

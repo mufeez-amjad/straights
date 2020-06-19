@@ -28,6 +28,43 @@ Deck::~Deck() noexcept
 	}
 }
 
+Deck::Deck(const Deck& d)
+{
+	this->_deckData = new DeckData();
+
+	for (int i = 0; i != CARD_COUNT; i++) {
+		this->_deckData->_cards[i] = new Card(*d._deckData->_cards[i]);
+		this->_deckData->_orderedCards[i] = nullptr;
+	}
+	this->_orderCards();
+}
+
+Deck& Deck::operator=(const Deck& d)
+{
+	Deck d_copy = Deck(d);
+
+	DeckData* temp_deck = this->_deckData;
+	this->_deckData = d_copy._deckData;
+	d_copy._deckData = temp_deck;
+
+	return *this;
+}
+
+Deck::Deck(Deck&& d)
+{
+	this->_deckData = d._deckData;
+	d._deckData = nullptr;
+}
+
+Deck& Deck::operator=(Deck&& d)
+{
+	DeckData* temp_deck = this->_deckData;
+	this->_deckData = d._deckData;
+	d._deckData = temp_deck;
+
+	return *this;
+}
+
 Card* Deck::at(unsigned int index)
 {
 	if (index >= CARD_COUNT)
