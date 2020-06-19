@@ -6,20 +6,25 @@ int seed = 0;
 
 Deck::Deck()
 {
+	this->_deckData = new DeckData();
+
 	for (int suit = CLUB; suit != SUIT_COUNT; suit++) {
 		for (int rank = ACE; rank != RANK_COUNT; rank++) {
 			int index = (RANK_COUNT*suit) + rank;
-			this->_cards[index] = new Card((Suit)suit, (Rank)rank);
-			this->_orderedCards[index] = nullptr;
+			this->_deckData->_cards[index] = new Card((Suit)suit, (Rank)rank);
+			this->_deckData->_orderedCards[index] = nullptr;
 		}
 	}
 }
 
 Deck::~Deck() noexcept
 {
-	if (this->_cards != nullptr) {
-		for (int i = 0; i < CARD_COUNT; ++i)
-			delete this->_cards[i];
+	if (this->_deckData != nullptr) {
+		if (this->_deckData->_cards != nullptr) {
+			for (int i = 0; i < CARD_COUNT; ++i)
+				delete this->_deckData->_cards[i];
+		}
+		delete this->_deckData;
 	}
 }
 
@@ -28,7 +33,7 @@ Card* Deck::at(unsigned int index)
 	if (index >= CARD_COUNT)
 		throw std::out_of_range("Deck index out of range");
 
-	return this->_cards[index];
+	return this->_deckData->_cards[index];
 }
 
 Card* Deck::lookup(Card card)
@@ -37,7 +42,7 @@ Card* Deck::lookup(Card card)
 	if (hash >= CARD_COUNT)
 		return nullptr;
 
-	return this->_orderedCards[hash];
+	return this->_deckData->_orderedCards[hash];
 }
 
 Card* Deck::lookup(Card* card)
@@ -53,9 +58,9 @@ void Deck::shuffle(void)
 	while (n > 1) {
 		int k = (int) (rng() % n);
 		--n;
-		Card *c = this->_cards[n];
-		this->_cards[n] = this->_cards[k];
-		this->_cards[k] = c;
+		Card *c = this->_deckData->_cards[n];
+		this->_deckData->_cards[n] = this->_deckData->_cards[k];
+		this->_deckData->_cards[k] = c;
 	}
 
 	this->_orderCards();
@@ -64,8 +69,8 @@ void Deck::shuffle(void)
 void Deck::_orderCards(void)
 {
 	for (int i = 0; i < CARD_COUNT; i++) {
-		Card* card = this->_cards[i];
-		this->_orderedCards[card->getHash()] = card;
+		Card* card = this->_deckData->_cards[i];
+		this->_deckData->_orderedCards[card->getHash()] = card;
 	}
 }
 
@@ -73,7 +78,7 @@ std::ostream &operator<<(std::ostream& out, const Deck& deck)
 {
 	for (int i = 0; i < SUIT_COUNT; i++) {
 		for (int j = 0; j < RANK_COUNT; j++) {
-			std::cout << *deck._cards[Card::hash(i, j)];
+			std::cout << *deck._deckData->_cards[Card::hash(i, j)];
 			if (j != RANK_COUNT - 1)
 				std::cout << " ";
 			else if (i != SUIT_COUNT - 1)

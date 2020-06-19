@@ -1,7 +1,7 @@
 #ifndef _DECK_
 #define _DECK_
 
-#include "Card.h"
+#include "DeckPimpl.h"
 
 #include <stdexcept>
 
@@ -51,8 +51,7 @@ class Deck
 			// modifies: this modifies _orderedCards to accurately map from
 			//           card hashes to Card* in the deck
 
-		Card* _cards[CARD_COUNT];
-		Card* _orderedCards[CARD_COUNT];
+		DeckData* _deckData;
 };
 
 std::ostream &operator<<(std::ostream&, const Deck&);
