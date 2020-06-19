@@ -21,7 +21,7 @@ void Game::_invitePlayers(void)
 {
 	std::string choice;
 	for (int i = 0; i < PLAYER_COUNT; i++) {
-		std::cout << "Is player " << i + 1 << " a human (h) or a computer (c)?\n";
+		std::cout << "Is player " << i + 1 << " a human (h) or a computer (c)?\n>";
 
 		while (std::cin >> choice && choice != "h" && choice != "c") {}
 
@@ -178,14 +178,14 @@ PlayerRecord& Game::_getPlayer(int playerNumber)
 
 void Game::_printHumanPrompt(std::vector<Card*>& hand)
 {
-	std::cout << "Cards on the table:\n" << this->_gameData->_table << "\n";
+	std::cout << "Cards on the table:\n" << *this->_gameData->_table << "\n";
 	std::cout << "Your hand:" << hand << "\n";
 	std::cout << "Legal plays:";
 	for (auto& c: hand) {
 		if (this->_isValidMove(c))
 			std::cout << " " << *c;
 	}
-	std::cout << "\n";
+	std::cout << "\n>";
 }
 
 std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& hand)

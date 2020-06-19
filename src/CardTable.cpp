@@ -37,6 +37,8 @@ std::ostream &operator<< (std::ostream& out, CardTable& table)
 			if (table._table[Card::hash(i, j)] != nullptr)
 				std::cout << " " << table._table[Card::hash(i, j)]->getValue();
 		}
+		if (i != SUIT_COUNT - 1)
+			std::cout << "\n";
 	}
 	return out;
 }
