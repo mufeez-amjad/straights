@@ -4,16 +4,16 @@
 #include "Human.h"
 #include "Card.h"
 
-// Human& Human::operator=(const Human& h) noexcept
-// {
-// 	Human h_copy = Human(h);
+Human& Human::operator=(const Human& h) noexcept
+{
+	Human h_copy = Human(h);
 
-// 	PlayerData* temp_player = this->_playerData;
-// 	this->_playerData = h_copy._playerData;
-// 	h_copy._playerData = temp_player;
+	PlayerData* temp_player = this->_playerData;
+	this->_playerData = h_copy._playerData;
+	h_copy._playerData = temp_player;
 
-// 	return *this;
-// }
+	return *this;
+}
 
 Command Human::playTurn(std::unordered_set<int> &validTurns)
 {

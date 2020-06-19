@@ -3,16 +3,16 @@
 #include <iostream>
 #include <cassert>
 
-// Computer& Computer::operator=(const Computer& c) noexcept
-// {
-// 	Computer c_copy = Computer(c);
+Computer& Computer::operator=(const Computer& c) noexcept
+{
+	Computer c_copy = Computer(c);
 
-// 	PlayerData* temp_player = this->_playerData;
-// 	this->_playerData = c_copy._playerData;
-// 	c_copy._playerData = temp_player;
+	PlayerData* temp_player = this->_playerData;
+	this->_playerData = c_copy._playerData;
+	c_copy._playerData = temp_player;
 
-// 	return *this;
-// }
+	return *this;
+}
 
 Computer::Computer(Player& p) : Player(p.getHand(), p.getDiscards())
 {
