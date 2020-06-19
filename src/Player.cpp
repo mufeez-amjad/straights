@@ -14,7 +14,7 @@ Player::Player() {
 
 Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
 	this->_playerData = new PlayerData();
-	
+
 	this->_playerData->_hand = hand;
 	this->_playerData->_discards = discards;
 }
@@ -35,7 +35,7 @@ void Player::removeCard(Card* c)
 void Player::setHand(Deck& deck, unsigned int index)
 {
 	for (unsigned int i = index; i < index + RANK_COUNT; i++)
-		_hand.push_back(deck.at(i));
+		_playerData->_hand.push_back(deck.at(i));
 }
 
 void Player::resetHand()

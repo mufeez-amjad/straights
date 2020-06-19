@@ -10,12 +10,6 @@
 
 #define PLAYER_COUNT 4
 
-enum class PlayerType : char
-{
-	HUMAN = 'h',
-	COMPUTER = 'c',
-};
-
 class Player
 {
 	public:
