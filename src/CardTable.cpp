@@ -2,30 +2,34 @@
 
 CardTable::CardTable()
 {
+	_cardTableData = new CardTableData();
+
 	for (int i = CLUB; i != SUIT_COUNT; i++) {
 		for (int j = ACE; j != RANK_COUNT; j++)
-			this->_table[Card::hash(i, j)] = nullptr;
+			this->_cardTableData->_table[Card::hash(i, j)] = nullptr;
 	}
 }
 
-bool CardTable::addCard(Card* card)
+CardTable::~CardTable()
 {
-	if (card == nullptr)
-		return false;
+	if (_cardTableData != nullptr)
+		delete _cardTableData;
+}
+
+void CardTable::addCard(Card* card)
+{
+	assert(card != nullptr);
 
 	int hash = card->getHash();
+	assert(this->_cardTableData->_table[hash] == nullptr && hash < CARD_COUNT);
 
-	if (this->_table[hash] != nullptr || hash >= CARD_COUNT)
-		return false;
-
-	this->_table[hash] = card;
-	return true;
+	this->_cardTableData->_table[hash] = card;
 }
 
 void CardTable::clear(void)
 {
 	for (int i = 0; i < CARD_COUNT; i++)
-		this->_table[i] = nullptr;
+		this->_cardTableData->_table[i] = nullptr;
 }
 
 std::ostream &operator<< (std::ostream& out, CardTable& table)
@@ -34,8 +38,8 @@ std::ostream &operator<< (std::ostream& out, CardTable& table)
 		std::cout << Card::getName((Suit)i) << ":";
 
 		for (int j = 0; j < RANK_COUNT; j++) {
-			if (table._table[Card::hash(i, j)] != nullptr) {
-				std::cout << " " << table._table[Card::hash(i, j)]->getSymbol();
+			if (table._cardTableData->_table[Card::hash(i, j)] != nullptr) {
+				std::cout << " " << table._cardTableData->_table[Card::hash(i, j)]->getSymbol();
 			}
 		}
 		if (i != SUIT_COUNT - 1)
