@@ -35,7 +35,7 @@ std::ostream &operator<< (std::ostream& out, CardTable& table)
 
 		for (int j = 0; j < RANK_COUNT; j++) {
 			if (table._table[Card::hash(i, j)] != nullptr)
-				std::cout << " " << table._table[Card::hash(i, j)]->getValue();
+				std::cout << " " << table._table[Card::hash(i, j)]->getSymbol();
 		}
 		if (i != SUIT_COUNT - 1)
 			std::cout << "\n";

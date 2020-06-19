@@ -33,6 +33,24 @@ int Card::hash(int i, int j)
 	return Card::hash((Suit)i, (Rank)j);
 }
 
+char Card::getSymbol(void) const
+{
+	switch (rank_) {
+		case ACE:
+			return 'A';
+		case JACK:
+			return 'J';
+		case QUEEN:
+			return 'Q';
+		case KING:
+			return 'K';
+		default:
+			// offset by 1 since enum TWO has a value of 1
+			return '1' + rank_;
+	}
+	return '\0';
+}
+
 int Card::getValue(void) const
 {
 	return rank_ + 1;
@@ -116,9 +134,7 @@ std::istream &operator>>(std::istream& in, Card& c)
 std::ostream &operator<<(std::ostream& out, const std::vector<Card*>& cards)
 {
 	for (size_t i = 0; i < cards.size(); i++) {
-		if (i != cards.size() - 1)
-			out << " ";
-		out << *cards.at(i);
+		out << " " << *cards.at(i);
 	}
 	return out;
 }

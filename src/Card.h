@@ -19,10 +19,21 @@ public:
 	Card(int);
 
 	Card(const Card&) noexcept;
+
 	Suit getSuit(void) const;
+		// returns: the card's suit
+
 	Rank getRank(void) const;
+		// returns: the card's rank
+
 	int getValue(void) const;
+		// returns: the card's numeric value
+
+	char getSymbol(void) const;
+		// returns: the card's symbol
+
 	int getHash(void) const;
+		// returns: the card's hash = (13 * Suit) + Rank
 
 	static int hash(Suit, Rank);
 	static int hash(int, int);

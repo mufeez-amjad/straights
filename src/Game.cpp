@@ -88,7 +88,7 @@ void Game::_declareWinner(void)
 	}
 	for (int i = 0; i < PLAYER_COUNT; i++) {
 		if (this->_gameData->_players[i].score == minScore)
-			std::cout << "Player " << i + 1 << " wins!";
+			std::cout << "Player " << i + 1 << " wins!\n";
 	}
 }
 
@@ -352,64 +352,3 @@ void Game::_makeSevensValidMoves(void)
 	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
 	this->_addValidMove(Card(HEART, SEVEN).getHash());
 }
-
-// // Table Methods
-
-// void Game::_addToTable(Card* card)
-// {
-// 	this->_gameData->_table[card->getHash()] = card;
-// 	this->_gameData->_cardsInHand--;
-// }
-
-// void Game::_clearTable(void)
-// {
-// 	for (int i = 0; i < CARD_COUNT; i++)
-// 		this->_gameData->_table[i] = nullptr;
-// }
-
-// void Game::_printTable(void)
-// {
-// 	std::cout << "Cards on the table:\n";
-// 	for (int i = 0; i < SUIT_COUNT; i++) {
-// 		std::cout << Card::getName((Suit)i) << ":";
-// 		for (int j = 0; j < RANK_COUNT; j++) {
-// 			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr) {
-// 				Rank rank = this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank();
-
-// 				switch (rank)
-// 				{
-// 					case ACE:
-// 						std::cout << " A";
-// 						break;
-// 					case JACK:
-// 						std::cout << " J";
-// 						break;
-// 					case QUEEN:
-// 						std::cout << " Q";
-// 						break;
-// 					case KING:
-// 						std::cout << " K";
-// 						break;
-// 					default:
-// 						// std::cerr << rank << "\n";
-// 						std::cout << " " << rank+1;
-// 						break;
-// 				}
-// 			}
-// 		}
-// 		std::cout << "\n";
-// 	}
-// }
-
-// void Game::_printDeck(void)
-// {
-// 	for (int i = 0; i < SUIT_COUNT; i++) {
-// 		for (int j = 0; j < RANK_COUNT; j++) {
-// 			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
-// 			if (j != 12)
-// 				std::cout << " ";
-// 			else
-// 				std::cout << "\n";
-// 		}
-// 	}
-// }
