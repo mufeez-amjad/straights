@@ -108,7 +108,7 @@ void Game::_playRound(void)
 
 	this->_gameData->_currentPlayer = i/RANK_COUNT;
 
-	std::cout << "A new round begins. It's player " << this->_gameData->_currentPlayer + 1 << "'s turn to play.\n";
+	std::cout << "A new round begins. It’s player " << this->_gameData->_currentPlayer + 1 << "’s turn to play.\n";
 
 	while(this->_gameData->_activeRound && this->_gameData->_playing) {
 		this->_playTurn();
@@ -134,9 +134,9 @@ void Game::_scoreRound(void)
 
 		std::vector<Card*> discards = this->_getPlayer(i).player->getDiscards();
 
-		std::cout << "Player " << i+1 << "'s discards:" << discards << '\n';
+		std::cout << "Player " << i+1 << "’s discards:" << discards << '\n';
 
-		std::cout << "Player " << i+1 << "'s score: "
+		std::cout << "Player " << i+1 << "’s score: "
 		          << score << " + " << points
 		          << " = " << score + points << "\n";
 
