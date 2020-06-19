@@ -7,6 +7,20 @@
 
 extern int seed;
 
+//============================================================================
+// Deck represents an object consisting of CARD_COUNT number of cards which
+// are instances of the card class.
+//
+// Specification fields:
+//		Card* _cards[CARD_COUNT]
+//			- Stores pointers to card objects that fully specify a CARD_COUNT
+//			  number cards for a deck in a game. This is the deck which will
+//			  be shuffled for each round of the game
+//		Card* _orderedCards[CARD_COUNT]
+//			- Stores ordered pointers to the same card objects in _cards
+//			  for reference after shuffling the _cards deck
+//============================================================================
+
 class Deck
 {
 	friend std::ostream &operator<<(std::ostream&, const Deck&);

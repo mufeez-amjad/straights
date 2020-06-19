@@ -3,6 +3,23 @@
 
 #include "Player.h"
 
+//============================================================================
+// Human is a derived class from Player which represents a player in a game,
+// whose actions are determined by input from a user of the program.
+// 
+// Specification fields:
+//		_type: enum class PlayerType char{ HUMAN = 'h', COMPUTER = 'c' }
+//			- protected for child classes to derive
+//		_playerData: Private implementation of Player's data members
+//			- std::vector<Card*> _hand
+//				- Stores the cards in the players hand throughout each round.
+//				  Updated after the player's turn when a card is removed from
+//				  the hand due to the player playing or discarding it
+//			- std::vector<Card*> _discards
+//				- Stores the cards that the player has discared throughout
+//				  each round to be printed at the end of the round.
+//============================================================================
+
 class Human : public Player
 {
 	public:

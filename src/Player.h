@@ -10,6 +10,23 @@
 
 #define PLAYER_COUNT 4
 
+//============================================================================
+// Player represents an abstract class for a player in any game. Will be
+// extended by Human and Computer classes.
+//
+// Specification fields:
+//		_type: enum class PlayerType char{ HUMAN = 'h', COMPUTER = 'c' }
+//			- protected for child classes to derive
+//		_playerData: Private implementation of Player's data members
+//			- std::vector<Card*> _hand
+//				- Stores the cards in the players hand throughout each round.
+//				  Updated after the player's turn when a card is removed from
+//				  the hand due to the player playing or discarding it
+//			- std::vector<Card*> _discards
+//				- Stores the cards that the player has discared throughout
+//				  each round to be printed at the end of the round.
+//============================================================================
+
 class Player
 {
 	public:

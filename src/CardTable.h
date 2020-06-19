@@ -3,6 +3,17 @@
 
 #include "Card.h"
 
+//============================================================================
+// CardTable represents a table of cards which have currently been played in
+// the game
+//
+// Specification fields:
+//		- Card* _table[CARD_COUNT]
+//			- Contains nullptrs for any cards not on the table, and pointers
+//			  to the same Card objects as pointed to by _deck in the Deck
+//			  if the card has been played previously during the round
+//============================================================================
+
 class CardTable
 {
 	friend std::ostream &operator<< (std::ostream&, CardTable&);
