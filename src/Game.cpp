@@ -185,7 +185,7 @@ void Game::_printHumanPrompt(std::vector<Card*>& hand)
 		if (this->_isValidMove(c))
 			std::cout << " " << *c;
 	}
-	std::cout << "\n>";
+	std::cout << "\n";
 }
 
 std::unordered_set<int> Game::_calculatePlayerLegalPlays(std::vector<Card*>& hand)
@@ -208,7 +208,7 @@ bool Game::_queryTurn(PlayerRecord& current, std::unordered_set<int>& legalPlays
 	try {
 		c = current.player->playTurn(legalPlays);
 	} catch (Human::InvalidMoveException e) {
-		std::cout << e.getMessage() << std::endl;
+		std::cout << e.getMessage() << "\n";
 		return true;
 	}
 

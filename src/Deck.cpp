@@ -76,7 +76,7 @@ std::ostream &operator<<(std::ostream& out, const Deck& deck)
 			std::cout << *deck._cards[Card::hash(i, j)];
 			if (j != RANK_COUNT - 1)
 				std::cout << " ";
-			else
+			else if (i != SUIT_COUNT - 1)
 				std::cout << "\n";
 		}
 	}
