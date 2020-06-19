@@ -36,7 +36,7 @@ void Game::_invitePlayers(void)
 	std::cin.clear();
 }
 
-Game::~Game()
+Game::~Game() noexcept
 {
 	if (this->_gameData != nullptr) {
 		delete this->_gameData->_deck;
@@ -88,7 +88,7 @@ void Game::_declareWinner(void)
 	}
 	for (int i = 0; i < PLAYER_COUNT; i++) {
 		if (this->_gameData->_players[i].score == minScore)
-			std::cout << "Player " << i + 1 << " wins!\n";
+			std::cout << "Player " << i + 1 << " wins!";
 	}
 }
 
@@ -132,7 +132,12 @@ void Game::_scoreRound(void)
 		int score = this->_getPlayer(i).score;
 		int points = this->_getPlayer(i).points;
 
-		std::cout << "Player " << i+1 << "'s discards: " << this->_getPlayer(i).player->getDiscards() << '\n';
+		std::vector<Card*> discards = this->_getPlayer(i).player->getDiscards();
+
+		if (discards.size()) //TODO: fix trailing space for empty discards better
+			std::cout << "Player " << i+1 << "'s discards: " << discards << '\n';
+		else
+			std::cout << "Player " << i+1 << "'s discards:\n";
 
 		std::cout << "Player " << i+1 << "'s score: "
 		          << score << " + " << points
@@ -286,6 +291,10 @@ void Game::_playCard(Card* card)
 			this->_addValidMove(hash - 1);
 			break;
 	}
+
+	// after the 7 of spades has been played, all 7s are valid plays
+	if (*card == Card(SPADE, SEVEN))
+		this->_makeSevensValidMoves();
 }
 
 void Game::_discardCard(Card* card)
@@ -339,3 +348,71 @@ void Game::_resetValidMoves(void)
 	this->_gameData->_validMoves.clear();
 	this->_addValidMove(Card(SPADE, SEVEN).getHash());
 }
+
+// void Game::_makeSevensValidMoves(void)
+// {
+// 	this->_addValidMove(Card(CLUB, SEVEN).getHash());
+// 	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
+// 	this->_addValidMove(Card(HEART, SEVEN).getHash());
+// }
+
+// // Table Methods
+
+// void Game::_addToTable(Card* card)
+// {
+// 	this->_gameData->_table[card->getHash()] = card;
+// 	this->_gameData->_cardsInHand--;
+// }
+
+// void Game::_clearTable(void)
+// {
+// 	for (int i = 0; i < CARD_COUNT; i++)
+// 		this->_gameData->_table[i] = nullptr;
+// }
+
+// void Game::_printTable(void)
+// {
+// 	std::cout << "Cards on the table:\n";
+// 	for (int i = 0; i < SUIT_COUNT; i++) {
+// 		std::cout << Card::getName((Suit)i) << ":";
+// 		for (int j = 0; j < RANK_COUNT; j++) {
+// 			if (this->_gameData->_table[Card::hash((Suit)i, (Rank)j)] != nullptr) {
+// 				Rank rank = this->_gameData->_table[Card::hash((Suit)i, (Rank)j)]->getRank();
+
+// 				switch (rank)
+// 				{
+// 					case ACE:
+// 						std::cout << " A"; 
+// 						break;
+// 					case JACK:
+// 						std::cout << " J";
+// 						break;
+// 					case QUEEN:
+// 						std::cout << " Q";
+// 						break;
+// 					case KING:
+// 						std::cout << " K";
+// 						break;
+// 					default:
+// 						// std::cerr << rank << "\n";
+// 						std::cout << " " << rank+1;
+// 						break;
+// 				}
+// 			}
+// 		}
+// 		std::cout << "\n";
+// 	}
+// }
+
+// void Game::_printDeck(void)
+// {
+// 	for (int i = 0; i < SUIT_COUNT; i++) {
+// 		for (int j = 0; j < RANK_COUNT; j++) {
+// 			std::cout << *(this->_gameData->_deck[(RANK_COUNT * i) + j]);
+// 			if (j != 12)
+// 				std::cout << " ";
+// 			else
+// 				std::cout << "\n";
+// 		}
+// 	}
+// }

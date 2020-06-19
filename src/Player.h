@@ -19,7 +19,7 @@ class Player
 	public:
 		Player() {};
 		Player(std::vector<Card*>, std::vector<Card*>);
-		virtual ~Player();
+		virtual ~Player() noexcept;
 
 		// Accessors
 		std::vector<Card*> getHand(void) const;

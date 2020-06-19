@@ -32,7 +32,7 @@ class Game
 	private:
 		Game();
 
-		~Game();
+		~Game() noexcept;
 
 		// Start and end of game methods =====================================
 		void _invitePlayers(void);
@@ -86,6 +86,7 @@ class Game
 		bool _isValidMove(Card*);
 		bool _isValidMove(int);
 
+		void _makeSevensValidMoves(void);
 		void _resetValidMoves(void);
 
 		// Singleton instance
