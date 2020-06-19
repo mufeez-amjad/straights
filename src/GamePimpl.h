@@ -2,10 +2,10 @@
 #define _GAME_PIMPL_
 
 #include "Player.h"
-#include "Card.h"
+#include "Deck.h"
+#include "CardTable.h"
 
 #include <unordered_set>
-#include <unordered_map>
 
 struct PlayerRecord
 {
@@ -21,9 +21,8 @@ struct GameData
 	int _currentPlayer;
 	int _cardsInHand;
 	std::unordered_set<int> _validMoves;
-	Card* _deck[CARD_COUNT];
-	Card* _orderedDeck[CARD_COUNT];
-	Card* _table[CARD_COUNT];
+	Deck* _deck;
+	CardTable* _table;
 	PlayerRecord _players[PLAYER_COUNT];
 };
 
