@@ -4,7 +4,7 @@
 #include <unordered_set>
 #include <vector>
 
-#include "Deck.h"
+#include "Card.h"
 #include "Command.h"
 
 #define PLAYER_COUNT 4
@@ -30,7 +30,7 @@ class Player
 		virtual Command playTurn(std::unordered_set<int>&) = 0;
 
 		void removeCard(Card*);
-		void setHand(Deck&, unsigned int);
+		void setHand(Card**);
 		void resetHand();
 
 	private:

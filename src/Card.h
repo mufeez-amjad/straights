@@ -1,7 +1,8 @@
 #ifndef _CARD_
 #define _CARD_
 
-#include <iostream>
+#include <ostream>
+#include <istream>
 #include <vector>
 
 #define CARD_COUNT 52
@@ -21,7 +22,6 @@ public:
 	Card(const Card&) noexcept;
 	Suit getSuit(void) const;
 	Rank getRank(void) const;
-	int getValue(void) const;
 	int getHash(void) const;
 
 	static int hash(Suit, Rank);
