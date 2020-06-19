@@ -25,6 +25,8 @@ class Human : public Player
 	public:
 		Human() : Player() { _type = PlayerType::HUMAN; };
 
+		// Human& operator=(const Human&) noexcept;
+
 		Command playTurn(std::unordered_set<int>&) override;
 		// returns:  The move the Human Player requests via std::cin
 		// throws:   InvalidMoveException if the requested move specified

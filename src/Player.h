@@ -34,6 +34,10 @@ class Player
 		Player(std::vector<Card*>, std::vector<Card*>);
 		virtual ~Player() noexcept;
 
+		Player(const Player&) noexcept;
+		Player(Player&&) noexcept;
+		Player& operator=(Player&&) noexcept;
+
 		// Accessors
 		std::vector<Card*> getHand(void) const;
 			// returns: The Player's hand

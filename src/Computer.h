@@ -25,6 +25,8 @@ class Computer : public Player
 {
 	public:
 		Computer() : Player() { _type = PlayerType::COMPUTER; };
+		// Computer& operator=(const Computer&) noexcept;
+		
 		Computer(Player&);
 
 		Command playTurn(std::unordered_set<int>&) override;

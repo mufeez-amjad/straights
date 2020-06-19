@@ -12,6 +12,34 @@ Player::Player() {
 	this->_playerData = new PlayerData();
 }
 
+Player::Player(const Player& p) noexcept
+{
+	this->_type = p.getType();
+
+	this->_playerData = new PlayerData();
+	this->_playerData->_discards = p.getDiscards();
+	this->_playerData->_hand = p.getHand();
+}
+
+Player::Player(Player&& p) noexcept
+{
+	this->_type = p._type;
+	this->_playerData = p._playerData;
+	p._playerData = nullptr;
+}
+
+Player& Player::operator=(Player&& p) noexcept
+{
+	this->_type = p._type;
+
+	PlayerData* temp_player = this->_playerData;
+	this->_playerData = p._playerData;
+	p._playerData = temp_player;
+
+	return *this;
+}
+
+
 Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
 	this->_playerData = new PlayerData();
 
