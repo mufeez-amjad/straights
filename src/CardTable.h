@@ -21,10 +21,12 @@ class CardTable
 
 	public:
 		CardTable();
-		~CardTable();
-		// The rest of the big 5 will be left as default, as we will only
-		// ever want shallow copies of CardTable's data members, being only
-		// pointers to the same Card objects as found in a deck object.
+		~CardTable() noexcept;
+
+		CardTable(const CardTable&) noexcept;
+		CardTable& operator=(const CardTable&) noexcept;
+		CardTable(CardTable&&) noexcept;
+		CardTable& operator=(CardTable&&) noexcept;
 
 		void addCard(Card*);
 			// returns: true if the Card* is added to the table, otherwise

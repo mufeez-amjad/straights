@@ -28,18 +28,18 @@ Deck::~Deck() noexcept
 	}
 }
 
-Deck::Deck(const Deck& d)
+Deck::Deck(const Deck& d) noexcept
 {
 	this->_deckData = new DeckData();
 
-	for (int i = 0; i != CARD_COUNT; i++) {
+	for (int i = 0; i < CARD_COUNT; i++) {
 		this->_deckData->_cards[i] = new Card(*d._deckData->_cards[i]);
 		this->_deckData->_orderedCards[i] = nullptr;
 	}
 	this->_orderCards();
 }
 
-Deck& Deck::operator=(const Deck& d)
+Deck& Deck::operator=(const Deck& d) noexcept
 {
 	Deck d_copy = Deck(d);
 
@@ -50,13 +50,13 @@ Deck& Deck::operator=(const Deck& d)
 	return *this;
 }
 
-Deck::Deck(Deck&& d)
+Deck::Deck(Deck&& d) noexcept
 {
 	this->_deckData = d._deckData;
 	d._deckData = nullptr;
 }
 
-Deck& Deck::operator=(Deck&& d)
+Deck& Deck::operator=(Deck&& d) noexcept
 {
 	DeckData* temp_deck = this->_deckData;
 	this->_deckData = d._deckData;
