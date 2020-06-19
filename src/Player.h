@@ -6,6 +6,7 @@
 
 #include "Deck.h"
 #include "Command.h"
+#include "PlayerPimpl.h"
 
 #define PLAYER_COUNT 4
 
@@ -18,7 +19,7 @@ enum class PlayerType : char
 class Player
 {
 	public:
-		Player() {};
+		Player();
 		Player(std::vector<Card*>, std::vector<Card*>);
 		virtual ~Player() noexcept;
 
@@ -49,8 +50,7 @@ class Player
 			// ensures: The players hand and list of discards are empty.
 
 	private:
-		std::vector<Card*> _hand;
-		std::vector<Card*> _discards;
+		PlayerData* _playerData;
 
 	protected:
 		PlayerType _type;
