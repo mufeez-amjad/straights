@@ -349,12 +349,12 @@ void Game::_resetValidMoves(void)
 	this->_addValidMove(Card(SPADE, SEVEN).getHash());
 }
 
-// void Game::_makeSevensValidMoves(void)
-// {
-// 	this->_addValidMove(Card(CLUB, SEVEN).getHash());
-// 	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
-// 	this->_addValidMove(Card(HEART, SEVEN).getHash());
-// }
+void Game::_makeSevensValidMoves(void)
+{
+	this->_addValidMove(Card(CLUB, SEVEN).getHash());
+	this->_addValidMove(Card(DIAMOND, SEVEN).getHash());
+	this->_addValidMove(Card(HEART, SEVEN).getHash());
+}
 
 // // Table Methods
 
