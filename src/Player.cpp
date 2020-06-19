@@ -4,12 +4,19 @@
 
 Player::~Player() noexcept
 {
+	if(_playerData != nullptr)
+		delete _playerData;
+}
 
+Player::Player() {
+	this->_playerData = new PlayerData();
 }
 
 Player::Player(std::vector<Card*> hand, std::vector<Card*> discards) {
-	_hand = hand;
-	_discards = discards;
+	this->_playerData = new PlayerData();
+
+	this->_playerData->_hand = hand;
+	this->_playerData->_discards = discards;
 }
 
 void Player::removeCard(Card* c)
@@ -17,9 +24,9 @@ void Player::removeCard(Card* c)
 
 	// std::cout << "hand before removing a card: " << this->getHand() << "\n";
 
-	for (auto i = _hand.begin(); i != _hand.end(); i++) {
+	for (auto i = _playerData->_hand.begin(); i != _playerData->_hand.end(); i++) {
 		if (*i == c)
-			_hand.erase(i--);
+			_playerData->_hand.erase(i--);
 	}
 
 	// std::cout << "hand after removing a card: " << this->getHand() << "\n";
@@ -28,21 +35,21 @@ void Player::removeCard(Card* c)
 void Player::setHand(Deck& deck, unsigned int index)
 {
 	for (unsigned int i = index; i < index + RANK_COUNT; i++)
-		_hand.push_back(deck.at(i));
+		_playerData->_hand.push_back(deck.at(i));
 }
 
 void Player::resetHand()
 {
 	std::vector<Card*> empty;
-	_hand = empty;
-	_discards = empty;
+	_playerData->_hand = empty;
+	_playerData->_discards = empty;
 }
 
 void Player::discardCard(Card c)
 {
 	Card* discardedCard;
 
-	for (auto card: _hand) {
+	for (auto card: _playerData->_hand) {
 		if (*card == c) {
 			discardedCard = card;
 			break;
@@ -50,15 +57,15 @@ void Player::discardCard(Card c)
 	}
 
 	removeCard(discardedCard);
-	_discards.push_back(discardedCard);
+	_playerData->_discards.push_back(discardedCard);
 }
 
 std::vector<Card*> Player::getHand(void) const {
-	return _hand;
+	return _playerData->_hand;
 }
 
 std::vector<Card*> Player::getDiscards(void) const {
-	return _discards;
+	return _playerData->_discards;
 }
 
 PlayerType Player::getType(void) const {
