@@ -16,9 +16,8 @@ class Game
 			// int points
 			// Player* player
 		// PlayerNumber _currentTurn {ONE, TWO, THREE, FOUR}
-		// Deck* _deck
-		// CardTable* _table
-		// std::unordered_set<int> _validMoves;
+		// Card* _deck[]
+		// Card* _validMoves[];
 
 	public:
 		static Game* instance();
@@ -45,6 +44,8 @@ class Game
 
 		// Round and helper methods ===========================================
 		void _playRound(void);
+
+		void _shuffleDeck(void);
 
 		void _scoreRound(void);
 
@@ -74,6 +75,8 @@ class Game
 
 		void _humanToComputer(Player*);
 
+		void _printDeck(void);
+
 		void _quit();
 
 		// Legal play methods =================================================
@@ -88,6 +91,13 @@ class Game
 
 		void _makeSevensValidMoves(void);
 		void _resetValidMoves(void);
+
+		// Table methods ======================================================
+		void _addToTable(Card*);
+
+		void _clearTable(void);
+
+		void _printTable(void);
 
 		// Singleton instance
 		static Game _game;
